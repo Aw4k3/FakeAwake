@@ -1,0 +1,47 @@
+body {
+    display: grid;
+    grid-template-columns: 240px 240px auto;
+    grid-template-rows: auto 80px;
+    gap: 20px;
+    padding: 20px;
+    width: 100vw;
+    height: 100vh;
+    margin: 0px;
+    color: white;
+    font-family: 'Cabin', sans-serif;
+}
+
+.StackPanel {
+    flex: auto;
+    margin: 0px;
+    padding: 0px;
+    border-radius: 10px;
+    background-color: rgb(24, 24, 24);
+    list-style-type: none;
+    overflow: auto;
+}
+
+input[type=text] {
+    height: 40px;
+    margin: 10px;
+    border: none;
+    border-radius: 10px;
+    background-color: rgb(24, 24, 24);
+    color: white;
+    overflow-x: hidden;
+}
+
+button {
+    width: 100%;
+    height: 30px;
+    padding: 0px 20px;
+    border: 0;
+    background-color: transparent;
+    color: white;
+    text-align: left;
+    font-family: "Cabin";
+}
+
+.SelectedButton {
+    background-color: rgb(64, 64, 64);
+}
