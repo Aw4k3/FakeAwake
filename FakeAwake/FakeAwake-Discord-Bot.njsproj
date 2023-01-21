@@ -52,7 +52,7 @@
     <Content Include="Assets\Commands\Utility\AudioPlayer - JS.js" />
     <Content Include="Assets\Commands\Utility\YTtoMP3.js" />
     <Content Include="Assets\Commands\Utility\OpenAI - JS.js" />
-    <Content Include="Assets\Commands\Utility\Assistant.js" />
+    <Content Include="Assets\Disabled Commands\GoogleAssistant.js" />
     <Content Include="Assets\Commands\Banking\Balance.js">
       <SubType>Code</SubType>
     </Content>
@@ -222,7 +222,7 @@
     <Content Include="Assets\Commands\Fun\Roll.js">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="Assets\Commands\help.js">
+    <Content Include="Assets\Disabled Commands\help.js">
       <SubType>Code</SubType>
     </Content>
     <Content Include="Assets\Commands\Utility\ImageTools.js">
@@ -384,11 +384,7 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="package.json" />
-    <Content Include="README.md" />
     <Content Include="tsconfig.json">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="UI.js">
       <SubType>Code</SubType>
     </Content>
     <Content Include="UI\index.html" />
@@ -420,6 +416,7 @@
     <Folder Include="Assets\Gifs\" />
     <Folder Include="Assets\include\ConversationAI\" />
     <Folder Include="Assets\Guild Assets\" />
+    <Folder Include="Assets\Disabled Commands\" />
     <Folder Include="Assets\Webpages\" />
     <Folder Include="Assets\temp\" />
     <Folder Include="Assets\Webpages\FrontEnd\" />
