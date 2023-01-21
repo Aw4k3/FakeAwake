@@ -1,3 +1,0 @@
-C:\Users\Potato PC\source\repos\FakeAwake\FakeAwake\obj\Debug\FakeAwake-Discord-Bot.njsproj.AssemblyReference.cache
-C:\Users\Potato PC\source\repos\FakeAwake\FakeAwake\obj\Debug\FakeAwake-Discord-Bot.njsproj.CoreCompileInputs.cache
-C:\Users\Potato PC\source\repos\FakeAwake\FakeAwake\bin\Microsoft.NodejsTools.WebRole.dll
