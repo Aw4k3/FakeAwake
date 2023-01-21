@@ -1,6 +1,0 @@
-C:\Users\Potato PC\source\repos\FakeAwake\FakeAwake-Twitch-Bot\obj\Debug\FakeAwake-Twitch-Bot.njsproj.CoreCompileInputs.cache
-C:\Users\Potato PC\source\repos\FakeAwake\FakeAwake-Twitch-Bot\bin\Microsoft.NodejsTools.WebRole.dll
-C:\Users\Potato PC\source\repos\FakeAwake\FakeAwake-Twitch-Bot\obj\Debug\FakeAwake-Twitch-Bot.njsproj.AssemblyReference.cache
-C:\Users\Potato PC\Documents\GitHub\FakeAwake-Discord-Bot\FakeAwake-Twitch-Bot\obj\Debug\FakeAwake-Twitch-Bot.njsproj.AssemblyReference.cache
-C:\Users\Potato PC\Documents\GitHub\FakeAwake-Discord-Bot\FakeAwake-Twitch-Bot\obj\Debug\FakeAwake-Twitch-Bot.njsproj.CoreCompileInputs.cache
-C:\Users\Potato PC\Documents\GitHub\FakeAwake-Discord-Bot\FakeAwake-Twitch-Bot\bin\Microsoft.NodejsTools.WebRole.dll
