@@ -1,11 +1,10 @@
-// ts-check
+// @ts-check
 
 const tmi = require("tmi.js");
 const Utils = require("./Assets/include/Utils.js");
 const CommandHandler = require("./Assets/include/CommandHandler.js");
 
-const PREFIX = '!';
-var Commands = [];
+const PREFIX = "!";
 
 // Define configuration options
 const opts = {
@@ -17,16 +16,16 @@ const opts = {
         password: "oauth:039ptgbzk3llc77giht896ctimeeli"
     },
     channels: [
-	    "akiititanx",
+        "akiititanx",
         "awake_live",
         "crimsoneevee",
-		"danroleth",
+        "danroleth",
         "tysuetracking",
         //"onlydundun",
         "softspokenserenity",
-		"nearlymars",
+        "nearlymars",
         "jkchamp1",
-		"jcvlegend",
+        "jcvlegend",
         "taniwhaladdd",
         "hettyj"
     ]
@@ -39,8 +38,8 @@ CommandHandler.LoadCommands("./Assets/Commands");
 const client = new tmi.client(opts);
 
 // Register our event handlers (defined below)
-client.on('message', onMessageHandler);
-client.on('connected', onConnectedHandler);
+client.on("message", onMessageHandler);
+client.on("connected", onConnectedHandler);
 
 // Connect to Twitch:
 client.connect();
@@ -51,12 +50,12 @@ function onMessageHandler(channel, tags, msg, self) {
     
     // Generate Args
     msg = msg.trim();
-    const args = msg.slice(PREFIX.length).toLowerCase().split(' ');
-    const args_with_case = msg.slice(PREFIX.length).split(' ');
+    const args = msg.slice(PREFIX.length).toLowerCase().split(" ");
+    const args_with_case = msg.slice(PREFIX.length).split(" ");
     
     // Commands
     if (/how.+/.test(args[0])) {
-        if (CommandHandler.GetCommands().get("howx").Run(channel, tags, msg, self, client, args, args_with_case)) { console.log(`${Utils.GetTimeStamp()} [Command Handler] Successfully executed command '${CommandHandler.GetCommands().get("howx").name}'`); }
+        if (CommandHandler.GetCommands().get("howx").Run(channel, tags, msg, self, client, args, args_with_case)) { console.log(`${Utils.GetTimeStamp()} [Command Handler] Successfully executed command "${CommandHandler.GetCommands().get("howx").name}"`); }
         return;
     }
 

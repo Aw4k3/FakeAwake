@@ -49,7 +49,6 @@
     <Content Include="Assets\include\Random.js" />
     <Content Include="Assets\include\Utils.js" />
     <Content Include="package.json" />
-    <Content Include="README.md" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\" />
