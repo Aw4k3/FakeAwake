@@ -1,6 +1,5 @@
 // @ts-check
 // Twitch Bot Handler
-const Discord = require("discord.js");
 const FileSystem = require("fs");
 const Utils = require("./Utils.js");
 
@@ -31,8 +30,11 @@ global.COMMAND_CATEGORIES = {
     }
 }
 
-var commands = new Discord.Collection();
-var path_map = new Discord.Collection();
+// var commands = new Discord.Collection();
+// var path_map = new Discord.Collection();
+
+var commands = new Map();
+var path_map = new Map();
 
 function EnumerateDirectories(path) {
     var directories = FileSystem.readdirSync(path, { withFileTypes: true })
@@ -46,7 +48,7 @@ function EnumerateDirectories(path) {
 
 function LoadCommands(dir = "./") {
     /**************************** Setup Commands ****************************/
-    commands = new Discord.Collection();
+    commands = new Map();
 
     console.log(`${Utils.GetTimeStamp()} [Command Handler] Loading commands.`);
 
