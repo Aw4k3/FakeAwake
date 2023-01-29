@@ -16,12 +16,9 @@ const opts = {
         password: "oauth:039ptgbzk3llc77giht896ctimeeli"
     },
     channels: [
-        "akiititanx",
         "awake_live",
         "crimsoneevee",
         "danroleth",
-        "tysuetracking",
-        //"onlydundun",
         "softspokenserenity",
         "nearlymars",
         "jkchamp1",
