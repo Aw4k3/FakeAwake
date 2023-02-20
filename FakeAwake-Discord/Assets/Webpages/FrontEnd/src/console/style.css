@@ -1,0 +1,29 @@
+body {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    color: white;
+    font-family: 'Cabin', sans-serif;
+}
+
+.StackPanel {
+    flex: auto;
+    margin: 20px 20px 0px 20px;
+    padding: 8px 15px;
+    border-radius: 10px;
+    background-color: rgb(24, 24, 24);
+    list-style-type: none;
+    overflow: auto;
+}
+
+input[type=text] {
+    height: 40px;
+    margin: 20px 20px 20px 20px;
+    border: none;
+    border-radius: 10px;
+    background-color: rgb(24, 24, 24);
+    color: white;
+    overflow-x: hidden;
+}

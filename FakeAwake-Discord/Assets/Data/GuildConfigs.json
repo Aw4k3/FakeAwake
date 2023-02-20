@@ -1,0 +1,97 @@
+{
+  "577172405886386188": {
+    "Prefix": "!!",
+    "Bot Channels": [
+      "854080392000307201",
+      "831695099699658752"
+    ],
+    "Broadcast Channel": "854080392000307201",
+    "SFW": true,
+    "Soundboard": [
+      [
+        "Recording_2022-03-03T090946.wav",
+        "Recording_2022-03-23T032216.wav"
+      ]
+    ]
+  },
+  "740889917529522226": {
+    "Broadcast Channel": "740889917965729834",
+    "Rules": [
+      "Just don't be a dick.",
+      "Please put stuff in their appropriate channels, I'm not going to be strict on this rule since sometimes you find yourself not switching channels since you're mid conversation anyway, but please follow it anyway.",
+      "Anything too NSFW must be spoiler tagged and placed in <#740909369062850581>",
+      "<@!301985885870882827> and <@&740891846590333030> get final say in things.",
+      "**Bonus Rule**: You are **not** allowed to die while playing Beat Saber"
+    ],
+    "Soundboard": [
+      [
+        "Welcome_to_Osu.mp3",
+        "bills.mp3",
+        "lolicore.mp3"
+      ]
+    ]
+  },
+  "734373940306378832": {
+    "Broadcast Channel": "834493761488027700",
+    "Soundboard": [
+      [
+        "Emergency_food.mp3"
+      ]
+    ]
+  },
+  "713939972020764733": {
+    "Broadcast Channel": "713939972377411604",
+    "Soundboard": [
+      [
+        "Fuck_Mechanics.mp3",
+        "I'm At Soup!.mp3",
+        "actually im a boy.mp3"
+      ]
+    ],
+    "Rules": [
+      "Awake isnt cool"
+    ]
+  },
+  "803614791251525642": {
+    "Broadcast Channel": "904042259006226512",
+    "Soundboard": [
+      [
+        "Emotional Damage.mp3"
+      ]
+    ]
+  },
+  "820298905057099797": {
+    "Soundboard": [
+      [
+        "Emergency_food.mp3",
+        "try_me.mp3"
+      ]
+    ],
+    "Broadcast Channel": "820298905057099800"
+  },
+  "574898006571089957": {
+    "Soundboard": [
+      [
+        "Campfire.mp3"
+      ]
+    ]
+  },
+  "932581451831066634": {
+    "Prefix": "."
+  },
+  "436914784676610078": {
+    "Soundboard": [
+      [
+        "Emotional Damage.mp3"
+      ]
+    ]
+  },
+  "967653381969674280": {
+    "Soundboard": [
+      [
+        "Smack_My_Ass.mp3",
+        "JC_blind.mp3"
+      ]
+    ]
+  }
+}

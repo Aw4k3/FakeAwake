@@ -1,0 +1,3 @@
+C:\Users\Potato PC\source\repos\FakeAwake\FakeAwake\obj\Debug\FakeAwake.njsproj.CoreCompileInputs.cache
+C:\Users\Potato PC\source\repos\FakeAwake\FakeAwake\bin\Microsoft.NodejsTools.WebRole.dll
+C:\Users\Potato PC\source\repos\FakeAwake\FakeAwake\obj\Debug\FakeAwake.njsproj.AssemblyReference.cache
