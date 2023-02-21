@@ -1,0 +1,7 @@
+.collapsible-content {
+    padding: 10px;
+}
+
+.collapsible-content > p {
+    margin: 6px;
+}
