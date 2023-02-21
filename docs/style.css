@@ -1,0 +1,84 @@
+:root {
+    --corner-radius: 6px;
+}
+
+body {
+    margin: 0;
+    background-color: rgb(9, 6, 14);
+    color: white;
+    font-family: 'Cabin', sans-serif;
+    font-family: 'Questrial', sans-serif;
+}
+
+nav {
+    height: 70px;
+    padding: 0px 20px;
+    position: sticky;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: rgb(9, 6, 14);
+    font-size: 120%;
+}
+
+h1, h2 {
+    margin: 0;
+}
+
+a {
+    text-decoration: none;
+    color: white;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-size: 130%;
+}
+
+.nav-button {
+    margin: 0px 5px;
+    padding: 10px;
+    font-weight: 100;
+    transition: 200ms;
+}
+
+.nav-button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: var(--corner-radius);
+    cursor: pointer;
+    transition: 200ms;
+}
+
+.landing {
+    height: 80vh;
+    overflow: hidden;
+}
+
+.landing-text {
+    position: absolute;
+    top: 40%;
+    left: 10%;
+}
+
+.landing-text > h1 {
+    font-size: 5.5vw;
+    font-weight: bold;
+}
+
+.landing-text > h2 {
+    margin: 0px 3px;
+    font-size: 2.5vw;
+    font-weight: lighter;
+}
+
+.content-section {
+    padding: 60px 10%;
+}
+
+#about {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 60px;
+}
