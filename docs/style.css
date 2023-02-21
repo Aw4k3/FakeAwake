@@ -2,10 +2,15 @@
     --corner-radius: 6px;
 }
 
+* {
+    /* transition: 200ms; */
+    scroll-behavior: smooth;
+    color: white;
+}
+
 body {
     margin: 0;
-    background-color: rgb(9, 6, 14);
-    color: white;
+    background-color: rgb(12, 6, 24);
     font-family: 'Cabin', sans-serif;
     font-family: 'Questrial', sans-serif;
 }
@@ -17,7 +22,6 @@ nav {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: rgb(9, 6, 14);
     font-size: 120%;
 }
 
@@ -27,7 +31,6 @@ h1, h2 {
 
 a {
     text-decoration: none;
-    color: white;
 }
 
 main {
@@ -37,18 +40,34 @@ main {
     font-size: 130%;
 }
 
+button {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 3px;
+    padding: 14px;
+    background-color: rgb(67, 30, 109);
+    border-radius: var(--corner-radius);
+    border: none 0px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+button:hover {
+    filter: brightness(1.2);
+}
+
 .nav-button {
     margin: 0px 5px;
     padding: 10px;
     font-weight: 100;
-    transition: 200ms;
 }
 
 .nav-button:hover {
     background-color: rgba(255, 255, 255, 0.2);
     border-radius: var(--corner-radius);
     cursor: pointer;
-    transition: 200ms;
 }
 
 .landing {
@@ -60,6 +79,11 @@ main {
     position: absolute;
     top: 40%;
     left: 10%;
+}
+
+.landing-image {
+    filter: blur(6px) brightness(0.8);
+    translate: 0% -12%;
 }
 
 .landing-text > h1 {
@@ -74,11 +98,57 @@ main {
 }
 
 .content-section {
-    padding: 60px 10%;
+    padding: 60px 20%;
 }
 
-#about {
+.tile-viewer {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-    gap: 60px;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 40px;
+}
+
+.description-block {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+@media screen and (max-width: 1000px) {
+    nav {
+        display: none;
+    }
+
+    .landing {
+        height: 100vh
+    }
+
+    .landing-image {
+        translate: -20% -12%;
+    }
+
+    .landing-text {
+        width: 100%;
+        left: 0;
+        top: 48%;
+        text-align: center;
+    }
+
+    .landing-text > h1 {
+        font-size: 8vw;
+    }
+    
+    .landing-text > h2 {
+        font-size: 3vw;
+    }
+
+}
+
+@media screen and (max-width: 800px) {
+
+    .content-section {
+        padding: 60px 5%;
+    }
+
+    .tile-viewer {
+        grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
+    }
 }
