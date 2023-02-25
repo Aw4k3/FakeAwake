@@ -165,11 +165,11 @@ button:hover {
   }
 
   .landing-text > h1 {
-    font-size: 15vw;
+    font-size: 10vw;
   }
 
   .landing-text > h2 {
-    font-size: 5vw;
+    font-size: 4vw;
   }
 }
 
@@ -180,5 +180,13 @@ button:hover {
 
   .tile-viewer {
     grid-template-columns: auto;
+  }
+
+  .landing-text > h1 {
+    font-size: 15vw;
+  }
+
+  .landing-text > h2 {
+    font-size: 5vw;
   }
 }
