@@ -400,14 +400,12 @@ var Instance = /** @class */ (function () {
     Instance.DestroyInstance = function (g_id) {
         instances.delete(g_id);
     };
-    Instance.prototype.NextTrack = function (count) {
+    Instance.prototype.SkipTracks = function (count) {
         if (count === void 0) { count = 1; }
-        if (count < 1 || count > this.tracklist.length)
-            return;
-        this.tracklist.splice(0, count);
-        if (this.tracklist.length > 0)
-            this.Play();
-        else
+        if (count < 0 || count > this.tracklist.length)
+            return; // Handle out of range excpetions
+        this.tracklist.splice(0, count); // Remove all songs until the count
+        if (this.tracklist.length < 1)
             this.Stop();
     };
     Instance.prototype.ToggleLoop = function () {
@@ -531,7 +529,7 @@ var Instance = /** @class */ (function () {
         }
         else {
             if (!this.loop)
-                this.NextTrack();
+                this.SkipTracks();
             this.Play();
         }
     };
@@ -548,7 +546,8 @@ var Instance = /** @class */ (function () {
                 this.Pause();
                 break;
             case "skip":
-                this.NextTrack();
+                this.SkipTracks();
+                this.Play();
                 break;
             case "enable-loop":
             case "disable-loop":
@@ -561,7 +560,8 @@ var Instance = /** @class */ (function () {
                 this.Stop();
                 break;
             case "skip-to":
-                this.NextTrack(parseInt(i.values[0], 10));
+                this.SkipTracks(parseInt(i.values[0], 10));
+                this.Play();
                 break;
         }
         i.deferUpdate();
@@ -603,8 +603,8 @@ function Run(message, args, argswithcase, client) {
                             argswithcase.shift();
                             g_id = message.guild.id;
                             if (!instances.has(g_id))
-                                instances.set(g_id, new Instance(vc, message.channel));
-                            instances.get(g_id).BuildAndAddTracks(argswithcase.join(" "), message.member);
+                                instances.set(g_id, new Instance(vc, message.channel)); // Create instance if one doesn't already exist for a particular server
+                            instances.get(g_id).BuildAndAddTracks(argswithcase.join(" "), message.member); // Resolve and tracks the player should play
                             break;
                     }
                     if (message.deletable)

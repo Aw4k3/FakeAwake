@@ -3,7 +3,7 @@
 }
 
 * {
-  transition: 200ms; 
+  transition: 200ms;
   scroll-behavior: smooth;
   color: white;
 }
@@ -106,6 +106,8 @@ button:hover {
 .landing-image {
   filter: blur(6px) brightness(0.8);
   translate: 0% -12%;
+  width: 135%;
+  object-fit: contain;
 }
 
 .landing-text > h1 {
@@ -121,6 +123,7 @@ button:hover {
 
 .content-section {
   padding: 60px 20%;
+  font-size: 125%;
 }
 
 .tile-viewer {
@@ -150,22 +153,24 @@ button:hover {
   }
 
   .landing-image {
-    translate: -20% -12%;
+    translate: -20% 0;
+    width: auto;
+    height: 100vh;
   }
 
   .landing-text {
     width: 100%;
     left: 0;
-    top: 48%;
+    top: 38%;
     text-align: center;
   }
 
   .landing-text > h1 {
-    font-size: 8vw;
+    font-size: 400%;
   }
 
   .landing-text > h2 {
-    font-size: 3vw;
+    font-size: 160%;
   }
 }
 

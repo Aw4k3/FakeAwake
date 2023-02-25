@@ -1,0 +1,29 @@
+:root {
+  --corner-radius: 6px;
+}
+
+p {
+  margin: 0px;
+}
+
+.content-section {
+  display: grid;
+  gap: 40px;
+  justify-content: center;
+}
+
+.status-container {
+  width: 600px;
+  padding: 20px;
+  border-radius: var(--corner-radius);
+}
+
+.status-container > h1 {
+  text-align: center;
+}
+
+@media screen and (max-width: 800px) {
+  .status-container {
+    width: auto;
+  }
+}

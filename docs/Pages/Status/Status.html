@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FakeAwake Status</title>
+    <link rel="stylesheet" href="../../Assets/style.css">
+    <link rel="stylesheet" href="Status.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cabin:wght@400;700&family=Questrial&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+</head>
+
+<body>
+    <nav>
+        <a href="../../index.html">
+            <h1>FakeAwake Project</h1>
+        </a>
+        <div class="nav-button-container">
+            <a class="nav-button" href="../../index.html#about">About</a>
+            <a class="dot-separator">•</a>
+            <a class="nav-button"
+                href="https://discord.com/api/oauth2/authorize?client_id=707698652076048406&permissions=414501423168&scope=bot">Add
+                to Discord</a>
+            <a class="dot-separator">•</a>
+            <a class="nav-button">Add to Twitch</a>
+            <a class="dot-separator">•</a>
+            <a class="nav-button" href="https://github.com/Aw4k3/FakeAwake">Github</a>
+            <a class="dot-separator">•</a>
+            <a class="nav-button" href="#">Status</a>
+        </div>
+    </nav>
+    <main>
+        <div class="landing">
+            <div>
+                <img class="landing-image"
+                    src="https://wallpapercrafter.com/sizes/2560x1440/156582-fireworks-anime-dress-sunset-anime-girls-sky-clouds.jpg"
+                    alt="Waifu">
+                <div class="landing-text">
+                    <h1>Status</h1>
+                    <h2>Are there any problems with world domination?</h2>
+                </div>
+            </div>
+        </div>
+    </main>
+    <section class="content-section">
+        <div class="status-container" style="background-color: rgb(115, 138, 219);">
+            <h1>FakeAwake Discord Bot</h1>
+            <br>
+            <p>Status: <span id="status">Unknown</span></p>
+            <p>Active in <span id="status" id="servercount">0</span> servers</p>
+        </div>
+        
+        <div class="status-container" style="background-color: rgb(100, 65, 165);">
+            <h1>FakeAwake Twitch Bot</h1>
+            <br>
+            <p>Status: <span id="status">Unknown</span></p>
+            <p>Active in <span id="status" id="twitchcount">0</span> channels</p>
+        </div>
+    </section>
+</body>
+<script src="Status.js"></script>
+</html>

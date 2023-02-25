@@ -20,32 +20,22 @@ const ReadLine = readline.createInterface({
 
 function request_listener(req, res) {
     switch (req.url) {
-        case "/src/console/style.css":
-            res.writeHead(200, { "Content-Type": "text/css" });
-            res.end(FileSystem.readFileSync("./Assets/Webpages/FrontEnd/src/console/style.css"));
-            break;
-
-        case "/src/console/console.html":
-            res.writeHead(200, { "Content-Type": "text/html" });
-            res.end(FileSystem.readFileSync("./Assets/Webpages/FrontEnd/src/console/console.html"));
-            break;
-
-        case "/style.css":
-            res.writeHead(200, { "Content-Type": "text/css" });
-            res.end(FileSystem.readFileSync("./Assets/Webpages/FrontEnd/style.css"));
+        case "/discord/server_count":
+            res.writeHead(200, { "Content-Type": "application/json" });
+            res.write(JSON.stringify({ ServerCount: Array.from(CLIENT.guilds.cache.values()).length }));
+            res.end();
             break;
 
         default:
             res.writeHead(200, { "Content-Type": "text/html" });
-            res.end(FileSystem.readFileSync("./Assets/Webpages/FrontEnd/index.html"));
+            res.end("hi");
             break;
     }
-
 }
 
 const SERVER = Http.createServer(request_listener);
-SERVER.listen("42069", "localhost", () => {
-    console.log(`${Utils.GetTimeStamp()} Server running on localhost:42069`);
+SERVER.listen("420", "localhost", () => {
+    console.log(`${Utils.GetTimeStamp()} Server running on localhost:420`);
 });
 
 /**************************** Init Bot ****************************/

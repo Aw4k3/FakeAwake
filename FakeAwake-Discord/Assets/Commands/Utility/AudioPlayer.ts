@@ -321,10 +321,10 @@ class Instance {
         instances.delete(g_id);
     }
 
-    NextTrack(count: number = 1): void {
-        if (count < 1 || count > this.tracklist.length) return;
-        this.tracklist.splice(0, count);
-        if (this.tracklist.length > 0) this.Play(); else this.Stop();
+    SkipTracks(count: number = 1): void {
+        if (count < 0 || count > this.tracklist.length) return; // Handle out of range excpetions
+        this.tracklist.splice(0, count); // Remove all songs until the count
+        if (this.tracklist.length < 1) this.Stop();
     }
 
     ToggleLoop(): void {
@@ -423,8 +423,8 @@ class Instance {
         if (this.tracklist.length < 1) {
             console.log(`${Utils.GetTimeStamp()} Finished streaming to ${this.voicechannel.guild.name}->${this.voicechannel.name}`);
         } else {
-            if (!this.loop) this.NextTrack();
-            this.Play()
+            if (!this.loop) this.SkipTracks();
+            this.Play();
         }
     }
 
@@ -444,7 +444,8 @@ class Instance {
                 break;
 
             case "skip":
-                this.NextTrack();
+                this.SkipTracks();
+                this.Play();
                 break;
 
             case "enable-loop":
@@ -461,7 +462,8 @@ class Instance {
                 break;
 
             case "skip-to":
-                this.NextTrack(parseInt(i.values[0], 10));
+                this.SkipTracks(parseInt(i.values[0], 10));
+                this.Play();
                 break;
         }
 
@@ -498,8 +500,8 @@ export async function Run(message: Discord.Message, args: string[], argswithcase
             argswithcase.shift();
 
             var g_id: string = message.guild.id;
-            if (!instances.has(g_id)) instances.set(g_id, new Instance(vc, message.channel));
-            instances.get(g_id).BuildAndAddTracks(argswithcase.join(" "), message.member);
+            if (!instances.has(g_id)) instances.set(g_id, new Instance(vc, message.channel)); // Create instance if one doesn't already exist for a particular server
+            instances.get(g_id).BuildAndAddTracks(argswithcase.join(" "), message.member); // Resolve and tracks the player should play
             break;
     }
 
