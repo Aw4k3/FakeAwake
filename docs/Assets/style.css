@@ -153,7 +153,7 @@ button:hover {
   }
 
   .landing-image {
-    translate: -10% -10%;
+    translate: -20% -10%;
     width: auto;
   }
 
@@ -165,11 +165,11 @@ button:hover {
   }
 
   .landing-text > h1 {
-    font-size: 400%;
+    font-size: 15vw;
   }
 
   .landing-text > h2 {
-    font-size: 160%;
+    font-size: 5vw;
   }
 }
 
