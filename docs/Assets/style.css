@@ -153,9 +153,8 @@ button:hover {
   }
 
   .landing-image {
-    translate: -20% 0;
+    translate: -10% -10%;
     width: auto;
-    height: 100vh;
   }
 
   .landing-text {
