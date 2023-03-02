@@ -1,8 +1,9 @@
 {
   "compilerOptions": {
     "esModuleInterop": true,
-    "noImplicitAny": false,
+    "moduleResolution": "node",
     "noEmitOnError": true,
+    "noImplicitAny": false,
     "removeComments": false,
     "sourceMap": true,
     "target": "es5"

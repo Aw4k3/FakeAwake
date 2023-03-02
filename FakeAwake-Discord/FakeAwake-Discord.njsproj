@@ -161,7 +161,7 @@
     <Content Include="Assets\Commands\Fun\DoomFish.js">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="Assets\Commands\Fun\HowX.js">
+    <Content Include="Assets\Commands\Fun\HowX - JS.js">
       <SubType>Code</SubType>
     </Content>
     <Content Include="Assets\Commands\Fun\Hug.js">
@@ -424,6 +424,9 @@
     <Folder Include="UI\" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="Assets\Commands\Fun\HowX.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
     <TypeScriptCompile Include="Assets\Commands\Fun\Waifu.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>

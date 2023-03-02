@@ -1,112 +1,109 @@
-const Discord = require("discord.js");
-const Random = require("../../include/Random.js");
-const Utils = require("../../include/Utils.js");
-
-var icon = null;
-
-function SpecialCase(embed, message) {
-    icon = null;
-    switch (embed.title.split(" ")[0]) {
-        case "Drunk":
-            icon = new Discord.MessageAttachment("./Assets/Images/Wine.png");
-            embed.setThumbnail("attachment://Wine.png");
-            break;
-
-        case "Gay":
-            icon = new Discord.MessageAttachment("./Assets/Images/GachiBallPride.png");
-            embed.setThumbnail("attachment://GachiBallPride.png");
-            break;
-
-        case "Horny":
-            icon = new Discord.MessageAttachment("./Assets/Images/awakeGasm.png");
-            embed.setThumbnail("attachment://awakeGasm.png")
-            break;
-
-        case "Sleepy":
-            switch (message.author.id) {
-                // case "301985885870882827":
-                default: // Awake
-                    icon = new Discord.MessageAttachment("./Assets/Images/AwakeSleepA.gif");
-                    embed.setThumbnail("attachment://AwakeSleepA.gif")
-                    break;
-
-                case "311593459628900352": // Browdy
-                    icon = new Discord.MessageAttachment("./Assets/Images/BrowdySleepA.gif");
-                    embed.setThumbnail("attachment://BrowdySleepA.gif")
-                    break;
-
-                case "227897664333676544": // Eevee
-                    icon = new Discord.MessageAttachment("./Assets/Images/EeveeSleepA.gif");
-                    embed.setThumbnail("attachment://EeveeSleepA.gif")
-                    break;
-
-                case "713807072105332817": // Serenity
-                    icon = new Discord.MessageAttachment("./Assets/Images/SerenitySleepA.gif");
-                    embed.setThumbnail("attachment://SerenitySleepA.gif")
-                    break;
+"use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
             }
-            break;
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
-
-    return embed;
-}
-
-function Run(message, args, args_with_case, client) {
-    var entries = []
-    var upper = 101;
-
-    if (message.content.includes("-overload")) {
-        upper = Number.MAX_SAFE_INTEGER;
-    }
-
-    if (message.mentions.members.size) {
-        message.mentions.members.forEach(user => {
-            var s = args.join(" ").substring(3);
-            entries.push(`${user}: ${Random.RandInt(0, upper)}% ${s}`);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.aliases = exports.category = exports.title = exports.NSFW = exports.Run = void 0;
+var Discord = __importStar(require("discord.js"));
+var Random = __importStar(require("../../include/Random.js"));
+var Utils = __importStar(require("../../include/Utils.js"));
+function Run(message, args, argswithcase, client) {
+    return __awaiter(this, void 0, void 0, function () {
+        var entries, max, subject, _i, _a, member, embed;
+        return __generator(this, function (_b) {
+            entries = [];
+            max = 101;
+            if (message.content.includes("-overload"))
+                max = Number.MAX_SAFE_INTEGER;
+            // Clean up
+            if (args[0] == "how")
+                argswithcase.shift();
+            subject = argswithcase.join(" ");
+            subject = subject.replace(/<@[0-9]+>/g, ""); // Remove mentions
+            subject = subject.replace(/ +/g, ""); // Fix spaces
+            if (subject.startsWith("how"))
+                subject = subject.substr(3); // Remove "how" if it exists
+            // If there were users mentioned in the command
+            if (message.mentions.members.size > 0)
+                for (_i = 0, _a = Array.from(message.mentions.members.values()); _i < _a.length; _i++) {
+                    member = _a[_i];
+                    entries.push("".concat(member, ": ").concat(Random.RandInt(0, max), "%"));
+                }
+            // If no users mentioned in the command
+            else
+                entries.push("".concat(message.member, ": ").concat(Random.RandInt(0, max), "%"));
+            embed = new Discord.MessageEmbed()
+                .setTitle("".concat(Utils.CapitilizeFirstLetter(subject), " Check"))
+                .setColor("#000000")
+                .setDescription(entries.join("\n"));
+            message.channel.send({
+                embeds: [embed]
+            });
+            return [2 /*return*/, true];
         });
-
-        let embed = new Discord.MessageEmbed()
-            .setTitle(`${Utils.CapitilizeFirstLetter(s)} Check`)
-            .setColor("#000000")
-            .setDescription(entries.join("\n"));
-
-        let i_hate_discordjs_v_thirteen = {
-            embeds: [
-                SpecialCase(embed, message)
-            ]
-        };
-
-        if (icon !== null) { i_hate_discordjs_v_thirteen.files = [icon]; }
-
-        message.channel.send(i_hate_discordjs_v_thirteen);
-    } else {
-        var s = args.join(" ").substring(3);
-
-        let embed = new Discord.MessageEmbed()
-            .setTitle(`${Utils.CapitilizeFirstLetter(s)} Check`)
-            .setColor("#000000")
-            .setDescription(`${message.author.toString()}: ${Random.RandInt(0, 101)}% ${s}`);
-
-        let i_hate_discordjs_v_thirteen = {
-            embeds: [
-                SpecialCase(embed, message)
-            ]
-        };
-
-        if (icon !== null) { i_hate_discordjs_v_thirteen.files = [icon]; }
-
-        message.channel.send(i_hate_discordjs_v_thirteen);
-    }
-
-    return true;
+    });
 }
-
-module.exports = {
-    NSFW: false,
-    name: "howX",
-    category: global.COMMAND_CATEGORIES.FUN.NAME,
-    aliases: [
-        [ "how" ]
-    ],
-    Run
-}
+exports.Run = Run;
+exports.NSFW = false;
+exports.title = "howX";
+exports.category = global.COMMAND_CATEGORIES.FUN.NAME;
+exports.aliases = [
+    ["how"]
+];
+//# sourceMappingURL=HowX.js.map

@@ -5,6 +5,7 @@ const Status = require("../../include/Status.js");
 const FileSystem = require("fs");
 const Neko = require("nekos.life");
 const Https = require("https");
+const { forEach } = require("async");
 
 const Lewd = FileSystem.readdirSync("./Assets/Images/Waifus/Lewd");
 const NekoClient = new Neko();
