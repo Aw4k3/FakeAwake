@@ -1,0 +1,21 @@
+header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+section {
+    display: grid;
+    gap: 8px;
+}
+
+main {
+    height: 100%;
+    display: grid;
+    align-items: start;
+    grid-template-columns: 400px auto;
+}
+
+.refresh-button {
+    cursor: pointer;
+}

@@ -17,9 +17,12 @@
 
 <body>
     <nav>
-        <a href="#">
-            <h1>FakeAwake Project</h1>
-        </a>
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <a href="#">
+                <h1>FakeAwake Project</h1>
+            </a>
+            <button class="toggle-nav-button">X</button>
+        </div>
         <div class="nav-button-container">
             <a class="nav-button" href="#about">About</a>
             <a class="dot-separator">•</a>
@@ -31,23 +34,29 @@
             <a class="dot-separator">•</a>
             <a class="nav-button" href="https://github.com/Aw4k3/FakeAwake">Github</a>
             <a class="dot-separator">•</a>
-            <a class="nav-button" href="Pages/Status/Status.html">Status</a>
-        </div>
-    </nav>
-    <main>
-        <div class="landing">
-            <div>
-                <img class="landing-image"
-                    src="https://wallpapercrafter.com/sizes/2560x1440/156582-fireworks-anime-dress-sunset-anime-girls-sky-clouds.jpg"
-                    alt="Waifu">
-                <div class="landing-text">
-                    <h1>FakeAwake Project</h1>
-                    <h2>World domination begins here!</h2>
+            <a class="nav-button" href="Status.html">Status</a>
+            <a class="dot-separator">•</a>
+            <div class="dropdown">
+                <button class="nav-button">Tools</button>
+                <div class="dropdown-container">
+                    <a href="Tools/Apex_Randomiser.html" class="nav-button">Apex Randomiser</a>
                 </div>
             </div>
         </div>
-        <section id="about" class="content-section">
-            <div>
+    </nav>
+    <header class="landing">
+        <img class="landing-image"
+            src="https://wallpapercrafter.com/sizes/2560x1440/156582-fireworks-anime-dress-sunset-anime-girls-sky-clouds.jpg"
+            alt="Waifu">
+        <div class="landing-text">
+            <h1>FakeAwake Project</h1>
+            <h2>World domination begins here!</h2>
+        </div>
+        <span class="material-symbols-outlined landing-down-arrow">keyboard_double_arrow_down</span>
+    </header>
+    <main>
+        <section id="about">
+            <div class="description-text">
                 <h1>About FakeAwake</h1>
                 <p>
                     FakeAwake started as a silly little project to understand the process of developing a Discord Bot.
@@ -62,35 +71,40 @@
                     natrually like a normal person by implementing AI and Natrual Language capabilities.
                 </p>
                 <p>
-                    Overtime the FakeAwake project had expanded and a twitch bot was born, maybe more will come in the future. Feel
+                    Overtime the FakeAwake project had expanded and a twitch bot was born, maybe more will come in the
+                    future. Feel
                     free
-                    to peak through the code and/or even invite FakeAwake to your own Discord server <a style="text-decoration: underline; color: rgb(115, 138, 219);" href="https://discord.com/api/oauth2/authorize?client_id=707698652076048406&permissions=414501423168&scope=bot">here</a>.
+                    to peak through the code and/or even invite FakeAwake to your own Discord server
+                    <a style="text-decoration: underline; color: rgb(115, 138, 219);"
+                        href="https://discord.com/api/oauth2/authorize?client_id=707698652076048406&permissions=414501423168&scope=bot">here</a>.
                 </p>
             </div>
         </section>
 
-        <section class="content-section tile-viewer">
-            <div id="discord" class="description-block">
-                <div>
+        <section class="tile-viewer">
+            <div id="discord" class="description">
+                <div class="description-text">
                     <h1>FakeAwake Discord Bot</h1>
-                    <p>Spice up your server with FakeAwake's superb capabilities. FakeAwake comes loaded with AI
+                    <p>
+                        Spice up your server with FakeAwake's superb capabilities. FakeAwake comes loaded with AI
                         capabilites,
-                        fun and silly commands, a couple of utilites such as a music player and loads more features!</p>
+                        fun and silly commands, a couple of utilites such as a music player and loads more features!
+                    </p>
                 </div>
                 <a
                     href="https://discord.com/api/oauth2/authorize?client_id=707698652076048406&permissions=414501423168&scope=bot">
-                    <button style="background-color: rgb(115, 138, 219);">Invite<span
+                    <button style="background: rgb(115, 138, 219);">Invite<span
                             class="material-symbols-outlined">open_in_new</span></button>
                 </a>
             </div>
 
-            <div id="twitch" class="description-block">
-                <div>
+            <div id="twitch" class="description">
+                <div class="description-text">
                     <h1>FakeAwake Twitch Bot</h1>
                     <p>A slimmed down version of the Discord Bot made for use in twitch chats.</p>
                 </div>
                 <a>
-                    <button style="background-color: rgb(100, 65, 165);">Not Ready</button>
+                    <button style="background: rgb(100, 65, 165);">Not Ready</button>
                 </a>
             </div>
         </section>

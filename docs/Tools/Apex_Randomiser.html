@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+    <title>FakeAwake Project</title>
+    <link rel="stylesheet" href="../Assets/style.css">
+    <link rel="stylesheet" href="../Assets/Apex_Randomiser.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cabin:wght@400;700&family=Questrial&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+</head>
+
+<body>
+    <nav>
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <a href="../index.html">
+                <h1>FakeAwake Project</h1>
+            </a>
+            <button class="toggle-nav-button">X</button>
+        </div>
+        <div class="nav-button-container">
+            <a class="nav-button" href="../index.html#about">About</a>
+            <a class="dot-separator">•</a>
+            <a class="nav-button" href="https://github.com/Aw4k3/FakeAwake">Github</a>
+            <a class="dot-separator">•</a>
+            <div class="dropdown">
+                <button class="nav-button">Tools</button>
+                <div class="dropdown-container">
+                    <a href="Tools/Apex_Randomiser.html" class="nav-button">Apex Randomiser</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <main>
+        <img src="" alt="Champion Portrait" id="champion-image" width="100%">
+        <div style="display: grid; gap: 20px;">
+            <div style="display: grid; gap: 10px;">
+                <section>
+                    <header>
+                        <h2>Champion</h2>
+                        <span class="material-symbols-outlined refresh-button" id="randomise-champion">autorenew</span>
+                    </header>
+                    <select name="champion-dropdown" id="champion-dropdown">
+                        <!-- <optgroup label="Assault">
+                            <option value="bangalore">Bangalore</option>
+                            <option value="revenant">Revenant</option>
+                            <option value="fuse">Fuse</option>
+                            <option value="ash">Ash</option>
+                            <option value="mad-maggie">Mad Maggie</option>
+                        </optgroup>
+                        <optgroup label="Skirmisher">
+                            <option value="pathfinder">Pathfinder</option>
+                            <option value="wraith">Wraith</option>
+                            <option value="mirage">Mirage</option>
+                            <option value="octane">Octane</option>
+                            <option value="horizon">Horizon</option>
+                            <option value="valkyrie">Valkyrie</option>
+                        </optgroup>
+                        <optgroup label="Recon">
+    
+                        </optgroup>
+                        <optgroup label="Support">
+    
+                        </optgroup>
+                        <optgroup label="Controller">
+    
+                        </optgroup> -->
+                    </select>
+                </section>
+                <section style="display: flex; gap: 32px;">
+                    <div>
+                        <header>
+                            <h2>Primary</h2>
+                            <span class="material-symbols-outlined refresh-button">autorenew</span>
+                        </header>
+                        <img src="" alt="Primary Weapon">
+                        <select name="primary">
+                            <optgroup label="Pistols">
+                                <option value="re45">RE-45</option>
+                                <option value="wingman">Wingman</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                    <div>
+                        <header>
+                            <h2>Secondary</h2>
+                            <span class="material-symbols-outlined refresh-button">autorenew</span>
+                        </header>
+                        <img src="" alt="Secondary Weapon">
+                        <select name="primary">
+                            <optgroup label="Pistols">
+                                <option value="re45">RE-45</option>
+                                <option value="wingman">Wingman</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                </section>
+            </div>
+            <button>Randomise All <span class="material-symbols-outlined refresh-button">autorenew</span></button>
+        </div>
+    </main>
+</body>
+<script src="../Scripts/Apex_Randomiser.js"></script>
+</html>
