@@ -70,15 +70,16 @@ var Utils = __importStar(require("../../include/Utils.js"));
 var SECRETS = JSON.parse(FileSystem.readFileSync("./secrets/FakeAwake Secrets.json", "utf8"));
 var OPENAI_CONFIG = new OpenAi.Configuration({ apiKey: SECRETS.OpenAI.Secret });
 var OPENAI_API = new OpenAi.OpenAIApi(OPENAI_CONFIG);
+var conversations = new Map();
 var settings = {
     text: {
-        model: "text-davinci-003",
-        prompt: "",
-        temperature: 0.7,
-        max_tokens: 256,
-        top_p: 1.0,
-        frequency_penalty: 0.5,
-        presence_penalty: 0.0
+        model: "gpt-4",
+        messages: []
+        // temperature: 0.7,
+        // max_tokens: 256,
+        // top_p: 1.0,
+        // frequency_penalty: 0.5,
+        // presence_penalty: 0.0
     },
     image: {
         prompt: "",
@@ -86,6 +87,33 @@ var settings = {
         size: "1024x1024"
     }
 };
+var Conversation = /** @class */ (function () {
+    function Conversation() {
+        this.messages = [];
+        this.timers = [];
+    }
+    Conversation.prototype.AddMessage = function (message) {
+        var _this = this;
+        this.messages.push(message);
+        this.timers.push(setTimeout(function () { return _this.messages.splice(0, 1); }, Conversation.MESSAGE_LIFETIME * 1000));
+        if (this.messages.length > Conversation.MESSAGE_HISTORY_SIZE) {
+            this.messages.splice(0, 1);
+            clearTimeout(this.timers[0]);
+        }
+    };
+    Conversation.prototype.GetMessages = function () {
+        var messages = [Conversation.IDENTITY];
+        for (var _i = 0, _a = this.messages; _i < _a.length; _i++) {
+            var m = _a[_i];
+            messages.push({ role: m.role, content: m.message });
+        }
+        return messages;
+    };
+    Conversation.MESSAGE_LIFETIME = 600; // Seconds
+    Conversation.MESSAGE_HISTORY_SIZE = 15;
+    Conversation.IDENTITY = { role: "system", content: "You are a sentient human being with personal preferences and emotions." };
+    return Conversation;
+}());
 var VoiceAssisstant = /** @class */ (function () {
     function VoiceAssisstant(vc) {
         this.guildid = "";
@@ -166,7 +194,7 @@ var VoiceAssisstant = /** @class */ (function () {
 }());
 function Run(message, args, argswithcase, client) {
     return __awaiter(this, void 0, void 0, function () {
-        var operation, _a, m, response_1, e_1, response, m, e_2, vc, g_id;
+        var operation, _a, m, response_1, e_1, response, m, channel_id, e_2, vc, g_id, x;
         var _this = this;
         return __generator(this, function (_b) {
             switch (_b.label) {
@@ -176,9 +204,10 @@ function Run(message, args, argswithcase, client) {
                     _a = operation;
                     switch (_a) {
                         case "i": return [3 /*break*/, 1];
-                        case "2": return [3 /*break*/, 7];
+                        case "3": return [3 /*break*/, 7];
+                        case "x": return [3 /*break*/, 15];
                     }
-                    return [3 /*break*/, 15];
+                    return [3 /*break*/, 17];
                 case 1:
                     settings.image.prompt = argswithcase.join(" ");
                     return [4 /*yield*/, message.channel.send("<a:Loading:965027668280111255> generating...")];
@@ -208,44 +237,53 @@ function Run(message, args, argswithcase, client) {
                     e_1 = _b.sent();
                     m.edit("Status: ".concat(e_1.message));
                     return [3 /*break*/, 6];
-                case 6: return [3 /*break*/, 15];
+                case 6: return [3 /*break*/, 17];
                 case 7:
                     response = void 0;
-                    settings.text.prompt = argswithcase.join(" ");
-                    return [4 /*yield*/, message.channel.send("<a:Loading:965027668280111255> thinking...")];
+                    return [4 /*yield*/, message.channel.send("<a:Loading:965027668280111255> thinking... (This version is kinda unstable, it may fail)")];
                 case 8:
                     m = _b.sent();
                     _b.label = 9;
                 case 9:
                     _b.trys.push([9, 11, , 12]);
-                    return [4 /*yield*/, OPENAI_API.createCompletion(settings.text)];
+                    channel_id = message.channel.id;
+                    if (!conversations.has(channel_id))
+                        conversations.set(channel_id, new Conversation());
+                    conversations.get(channel_id).AddMessage({ role: "user", message: argswithcase.join(" ") });
+                    settings.text.messages = conversations.get(channel_id).GetMessages();
+                    return [4 /*yield*/, OPENAI_API.createChatCompletion(settings.text)];
                 case 10:
                     response = _b.sent();
-                    if (response.data.choices[0].text != "")
-                        m.edit(response.data.choices[0].text);
+                    if (response.data.choices[0].message != "")
+                        m.edit(response.data.choices[0].message);
                     else
                         message.edit("idk");
+                    conversations.get(channel_id).AddMessage({ role: response.data.choices[0].message.role, message: response.data.choices[0].message.content });
+                    console.log(conversations.get(channel_id).GetMessages());
+                    console.log("".concat(Utils.GetTimeStamp(), " [OpenAI] Begining of Response"));
+                    console.log("".concat(Utils.GetTimeStamp(), " [OpenAI] Response: ").concat(response.data.choices[0].message.replace("\n", "\\n")));
+                    console.log("".concat(Utils.GetTimeStamp(), " [OpenAI] Response Finish Reason: ").concat(response.data.choices[0].finish_reason));
+                    console.log("".concat(Utils.GetTimeStamp(), " [OpenAI] End of Response"));
                     return [3 /*break*/, 12];
                 case 11:
                     e_2 = _b.sent();
                     m.edit("Status: ".concat(e_2.response.status, ", ").concat(e_2.response.statusText));
+                    console.log("".concat(Utils.GetTimeStamp(), " [OpenAI] Begining of Response"));
+                    console.log("".concat(Utils.GetTimeStamp(), " [OpenAI] Response: ").concat(e_2.response.status, ", ").concat(e_2.response.statusText));
+                    console.log("".concat(Utils.GetTimeStamp(), " [OpenAI] End of Response"));
                     return [3 /*break*/, 12];
                 case 12:
-                    console.log("".concat(Utils.GetTimeStamp(), " [OpenAI] Begining of Response"));
-                    console.log("".concat(Utils.GetTimeStamp(), " [OpenAI] Response: ").concat(response.data.choices[0].text.replace("\n", "\\n")));
-                    console.log("".concat(Utils.GetTimeStamp(), " [OpenAI] Response Finish Reason: ").concat(response.data.choices[0].finish_reason));
-                    console.log("".concat(Utils.GetTimeStamp(), " [OpenAI] End of Response"));
                     if (!args[0].startsWith("s")) return [3 /*break*/, 14];
                     return [4 /*yield*/, message.member.voice.channel];
                 case 13:
                     vc = _b.sent();
                     if (vc == null) {
                         message.channel.send("".concat(message.member.user, ", join vc if you want me to chat to you babes."));
-                        return [3 /*break*/, 15];
+                        return [3 /*break*/, 17];
                     }
                     if (!vc.joinable) {
                         message.channel.send("".concat(message.member.user, ", I can't join your vc."));
-                        return [3 /*break*/, 15];
+                        return [3 /*break*/, 17];
                     }
                     g_id = message.guild.id;
                     if (!VoiceAssisstant.Instances.has(g_id))
@@ -253,25 +291,37 @@ function Run(message, args, argswithcase, client) {
                     VoiceAssisstant.Instances.get(g_id).GenerateResponse(response.data.choices[0].text);
                     m.edit("(Speaking) ".concat(response.data.choices[0].text.trim()));
                     _b.label = 14;
-                case 14: return [3 /*break*/, 15];
-                case 15: return [2 /*return*/, true];
+                case 14: return [3 /*break*/, 17];
+                case 15: return [4 /*yield*/, OPENAI_API.createChatCompletion({
+                        model: "gpt-4",
+                        messages: [{ "role": "user", "content": "Hello, how are you?" }]
+                    })];
+                case 16:
+                    x = _b.sent();
+                    console.log(x.data.choices[0].message.content);
+                    message.channel.send(x.data.choices[0].message);
+                    return [3 /*break*/, 17];
+                case 17: return [2 /*return*/, true];
             }
         });
     });
 }
 exports.Run = Run;
 exports.NSFW = false;
-exports.title = "OpenAI";
+exports.title = "OpenAI-GPT4";
 exports.category = global.COMMAND_CATEGORIES.UTILITY.NAME;
 exports.aliases = [
     // Text Response
-    ["fakeawake2"],
-    ["fa2"],
+    ["fakeawake3"],
+    ["fa3"],
     // Text + Voice Response
-    ["summonfakeawake2"],
-    ["sfa2"],
+    ["summonfakeawake3"],
+    ["sfa3"],
     // Image Response
-    ["fakeawake2i"],
-    ["fa2i"]
+    ["fakeawake3i"],
+    ["fa3i"],
+    // Testing stuff
+    ["fakeawake3x"],
+    ["fa3x"]
 ];
 //# sourceMappingURL=OpenAI.js.map

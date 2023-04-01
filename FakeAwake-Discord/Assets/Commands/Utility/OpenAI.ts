@@ -10,20 +10,51 @@ const SECRETS = JSON.parse(FileSystem.readFileSync("./secrets/FakeAwake Secrets.
 const OPENAI_CONFIG = new OpenAi.Configuration({ apiKey: SECRETS.OpenAI.Secret });
 const OPENAI_API = new OpenAi.OpenAIApi(OPENAI_CONFIG);
 
-var settings = {
+let conversations = new Map<string, Conversation>();
+
+let settings = {
     text: {
-        model: "text-davinci-003",
-        prompt: "",
-        temperature: 0.7,
-        max_tokens: 256,
-        top_p: 1.0,
-        frequency_penalty: 0.5,
-        presence_penalty: 0.0
+        model: "gpt-4",
+        messages: []
+        // temperature: 0.7,
+        // max_tokens: 256,
+        // top_p: 1.0,
+        // frequency_penalty: 0.5,
+        // presence_penalty: 0.0
     },
     image: {
         prompt: "",
         n: 1,
         size: "1024x1024"
+    }
+}
+
+interface Message {
+    role: OpenAi.ChatCompletionRequestMessageRoleEnum;
+    message: string;
+}
+
+class Conversation {
+    static MESSAGE_LIFETIME = 600; // Seconds
+    static MESSAGE_HISTORY_SIZE = 15;
+    static IDENTITY: OpenAi.ChatCompletionRequestMessage = { role: "system", content: "You are a sentient human being with personal preferences and emotions." };
+    private messages: Message[] = [];
+    private timers: NodeJS.Timeout[] = [];
+
+    AddMessage(message: Message): void {
+        this.messages.push(message);
+        this.timers.push(setTimeout(() => this.messages.splice(0, 1), Conversation.MESSAGE_LIFETIME * 1000));
+
+        if (this.messages.length > Conversation.MESSAGE_HISTORY_SIZE) {
+            this.messages.splice(0, 1);
+            clearTimeout(this.timers[0]);
+        }
+    }
+
+    GetMessages(): OpenAi.ChatCompletionRequestMessage[] {
+        let messages: OpenAi.ChatCompletionRequestMessage[] = [ Conversation.IDENTITY ];
+        for (let m of this.messages) messages.push({ role: m.role, content: m.message });
+        return messages;
     }
 }
 
@@ -62,7 +93,7 @@ class VoiceAssisstant {
     async Play() {
         // Stream Audio
         this.isplaying = true;
-        var audioresource = DiscordVoice.createAudioResource(this.queue[0], { inputType: DiscordVoice.StreamType.Opus });
+        let audioresource = DiscordVoice.createAudioResource(this.queue[0], { inputType: DiscordVoice.StreamType.Opus });
         this.audioplayer.play(audioresource);
     }
 
@@ -93,11 +124,12 @@ class VoiceAssisstant {
 }
 
 export async function Run(message: Discord.Message, args: string[], argswithcase: string[], client: Discord.Client): Promise<boolean> {
-    var operation: String = args[0].charAt(args[0].length - 1);
+    let operation: String = args[0].charAt(args[0].length - 1);
+    
     argswithcase.shift();
 
     switch (operation) {
-        case "i":
+        case "i": // Image Generation
             settings.image.prompt = argswithcase.join(" ");
             var m: Discord.Message = await message.channel.send("<a:Loading:965027668280111255> generating...");
 
@@ -114,22 +146,34 @@ export async function Run(message: Discord.Message, args: string[], argswithcase
             }
             break;
 
-        case "2":
+        case "3": // Text Generation
             let response;
-            settings.text.prompt = argswithcase.join(" ");
-            var m: Discord.Message = await message.channel.send("<a:Loading:965027668280111255> thinking...");
+            var m: Discord.Message = await message.channel.send("<a:Loading:965027668280111255> thinking... (This version is kinda unstable, it may fail)");
 
             try {
-                response = await OPENAI_API.createCompletion(settings.text as OpenAi.CreateCompletionRequest);
-                if (response.data.choices[0].text != "") m.edit(response.data.choices[0].text); else message.edit("idk");
+                // Handle conversation instances
+                let channel_id = message.channel.id;
+                if (!conversations.has(channel_id)) conversations.set(channel_id, new Conversation());
+                conversations.get(channel_id).AddMessage({ role: "user", message: argswithcase.join(" ") });
+                settings.text.messages = conversations.get(channel_id).GetMessages();
+
+                response = await OPENAI_API.createChatCompletion(settings.text);
+                if (response.data.choices[0].message != "") m.edit(response.data.choices[0].message); else message.edit("idk");
+
+                conversations.get(channel_id).AddMessage({ role: response.data.choices[0].message.role, message: response.data.choices[0].message.content });
+                console.log(conversations.get(channel_id).GetMessages());
+
+                console.log(`${Utils.GetTimeStamp()} [OpenAI] Begining of Response`);
+                console.log(`${Utils.GetTimeStamp()} [OpenAI] Response: ${response.data.choices[0].message.replace("\n", "\\n")}`);
+                console.log(`${Utils.GetTimeStamp()} [OpenAI] Response Finish Reason: ${response.data.choices[0].finish_reason}`);
+                console.log(`${Utils.GetTimeStamp()} [OpenAI] End of Response`);
             } catch (e) {
                 m.edit(`Status: ${e.response.status}, ${e.response.statusText}`);
-            }
 
-            console.log(`${Utils.GetTimeStamp()} [OpenAI] Begining of Response`);
-            console.log(`${Utils.GetTimeStamp()} [OpenAI] Response: ${response.data.choices[0].text.replace("\n", "\\n")}`);
-            console.log(`${Utils.GetTimeStamp()} [OpenAI] Response Finish Reason: ${response.data.choices[0].finish_reason}`);
-            console.log(`${Utils.GetTimeStamp()} [OpenAI] End of Response`);
+                console.log(`${Utils.GetTimeStamp()} [OpenAI] Begining of Response`);
+                console.log(`${Utils.GetTimeStamp()} [OpenAI] Response: ${e.response.status}, ${e.response.statusText}`);
+                console.log(`${Utils.GetTimeStamp()} [OpenAI] End of Response`);
+            }
 
             if (args[0].startsWith("s")) {
                 // Pre conditions
@@ -152,6 +196,15 @@ export async function Run(message: Discord.Message, args: string[], argswithcase
             }
 
             break;
+
+        case "x":
+            let x = await OPENAI_API.createChatCompletion({
+                model: "gpt-4",
+                messages: [{ "role": "user", "content": "Hello, how are you?" }]
+            });
+            console.log(x.data.choices[0].message.content);
+            message.channel.send(x.data.choices[0].message);
+            break;
     }
 
     return true;
@@ -161,18 +214,22 @@ export async function Run(message: Discord.Message, args: string[], argswithcase
 
 
 export const NSFW: boolean = false;
-export const title: string = "OpenAI";
+export const title: string = "OpenAI-GPT4";
 export const category: string = global.COMMAND_CATEGORIES.UTILITY.NAME;
 export const aliases: string[][] = [
     // Text Response
-    ["fakeawake2"],
-    ["fa2"],
+    ["fakeawake3"],
+    ["fa3"],
 
     // Text + Voice Response
-    ["summonfakeawake2"],
-    ["sfa2"],
+    ["summonfakeawake3"],
+    ["sfa3"],
 
     // Image Response
-    ["fakeawake2i"],
-    ["fa2i"]
+    ["fakeawake3i"],
+    ["fa3i"],
+
+    // Testing stuff
+    ["fakeawake3x"],
+    ["fa3x"]
 ];

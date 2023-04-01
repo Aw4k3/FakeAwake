@@ -22,7 +22,7 @@
     "nekos.life": "^3.0.0",
     "node-gyp": "^9.3.1",
     "node-opus": "^0.3.3",
-    "openai": "^3.1.0",
+    "openai": "^3.2.1",
     "sharp": "^0.31.3",
     "spotify-uri": "^3.0.3",
     "spotify-web-api-node": "^5.0.2",

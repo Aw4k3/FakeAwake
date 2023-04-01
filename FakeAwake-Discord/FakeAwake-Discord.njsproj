@@ -439,6 +439,9 @@
     <TypeScriptCompile Include="Assets\Commands\Utility\OpenAI.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
+    <TypeScriptCompile Include="Assets\Commands\Utility\OpenAI_Old.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsToolsV2.targets" />
 </Project>
