@@ -1,0 +1,94 @@
+:root {
+    --corner-radius: 10px;
+}
+
+body {
+    background-image: url("../Assets/Images/GuildedBlackstone.png");
+    background-repeat: repeat;
+    background-size: 10%;
+}
+
+section {
+    border-radius: var(--corner-radius);
+}
+
+#motd {
+    aspect-ratio: 8.47;
+    display: grid;
+    place-items: center;
+    background-image: url("../Assets/Images/DirtBackground.png");
+    background-repeat: repeat-x;
+    filter: drop-shadow(0px 0px 8px black);
+    font-family: 'Minecraft', sans-serif;
+}
+
+#players, #plugins {
+    display: grid;
+    gap: 20px;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.5);
+    filter: drop-shadow(0px 0px 8px rgb(0, 0, 0));
+    backdrop-filter: blur(4px);
+}
+
+#player-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.player-card {
+    width: 100px;
+}
+
+.player-card > img {
+    width: 100%;
+}
+
+.player-card > p {
+    text-overflow: ellipsis;
+}
+
+#server-info {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.info-card {
+    min-width: 160px;
+    padding: 1rem;
+    border-radius: var(--corner-radius);
+    background-color: rgba(0, 0, 0, 0.5);
+    filter: drop-shadow(0px 0px 8px black);
+    backdrop-filter: blur(4px);
+    text-align: center;
+}
+
+.info-card > h3 {
+    font-size: 2rem;
+}
+
+.info-card > p {
+    font-size: 1rem;
+}
+
+@media screen and (max-width: 1000px) {
+    #server-info {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+        gap: 20px;
+    }
+
+    .info-card {
+        min-width: 160px;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .info-card {
+        min-width: unset;
+        width: 100%;
+    }
+}
