@@ -3,9 +3,16 @@
   "version": "0.0.0",
   "description": "FakeAwake-Twitch-Bot",
   "main": "app.js",
+  "scripts": {
+    "build": "tsc --build",
+    "clean": "tsc --build --clean"
+  },
   "dependencies": {
-    "openai": "^3.1.0",
-    "tmi.js": "^1.2.1"
+    "@types/node": "^18.15.11",
+    "@types/tmi.js": "^1.8.3",
+    "openai": "^3.2.1",
+    "tmi.js": "^1.2.1",
+    "typescript": "^5.0.3"
   },
   "author": {
     "name": ""

@@ -19,13 +19,15 @@ const opts = {
         "awake_live",
         "crimsoneevee",
         "danroleth",
+        "evileria_",
         "softspokenserenity",
         "nearlymars",
         "jkchamp1",
         "jcvlegend",
         "taniwhaladdd",
         "hettyj",
-        "nt_thebeekeeper"
+        "nt_thebeekeeper",
+        "fakeawake_live"
     ]
 };
 
@@ -33,14 +35,14 @@ const opts = {
 CommandHandler.LoadCommands("./Assets/Commands");
 
 // Create a client with our options
-const client = new tmi.client(opts);
+const CLIENT = new tmi.client(opts);
 
 // Register our event handlers (defined below)
-client.on("message", onMessageHandler);
-client.on("connected", onConnectedHandler);
+CLIENT.on("message", onMessageHandler);
+CLIENT.on("connected", onConnectedHandler);
 
 // Connect to Twitch:
-client.connect();
+CLIENT.connect();
 
 // Called every time a message comes in
 function onMessageHandler(channel, tags, msg, self) {
@@ -53,11 +55,11 @@ function onMessageHandler(channel, tags, msg, self) {
     
     // Commands
     if (/how.+/.test(args[0])) {
-        if (CommandHandler.GetCommands().get("howx").Run(channel, tags, msg, self, client, args, args_with_case)) { console.log(`${Utils.GetTimeStamp()} [Command Handler] Successfully executed command "${CommandHandler.GetCommands().get("howx").name}"`); }
+        if (CommandHandler.GetCommands().get("howx").Run(channel, tags, msg, self, CLIENT, args, args_with_case)) { console.log(`${Utils.GetTimeStamp()} [Command Handler] Successfully executed command "${CommandHandler.GetCommands().get("howx").name}"`); }
         return;
     }
 
-    CommandHandler.Resolve(channel, tags, msg, self, client, args, args_with_case);
+    CommandHandler.Resolve(channel, tags, msg, self, CLIENT, args, args_with_case);
 }
 
 // Called every time the bot connects to Twitch chat
