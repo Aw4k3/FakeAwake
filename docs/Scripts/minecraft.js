@@ -15,7 +15,7 @@ GetPlayerInfo();
 
 async function GetServerInfo() {
     try {
-        let response = await fetch(`http://${HOST}:4567/v1/server`);
+        let response = await fetch(`https://${HOST}:4567/v1/server`);
         let data = await response.json();
         SERVER_STATUS.innerHTML = "Server is up";
         ACTIVE_PLAYERS.innerHTML = data.onlinePlayers;
@@ -44,7 +44,7 @@ async function GetServerInfo() {
 
 async function GetPlayerInfo() {
     try {
-        let response = await fetch(`http://${HOST}:4567/v1/players`);
+        let response = await fetch(`https://${HOST}:4567/v1/players`);
         let data = await response.json();
         for (let player of data) {
             PLAYERS.innerHTML += `<div class="player-card"><img src="https://mc-heads.net/avatar/${player.uuid}" alt="player-icon"></div>`
