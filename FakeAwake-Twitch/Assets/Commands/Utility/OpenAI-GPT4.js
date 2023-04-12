@@ -133,7 +133,7 @@ function Run(channel, tags, msg, self, client, args, argswithcase) {
                     console.log(conversations.get(channel).GetMessages());
                     // Logging
                     console.log("".concat(Utils.GetTimeStamp(), " [OpenAI] Begining of Response"));
-                    console.log("".concat(Utils.GetTimeStamp(), " [OpenAI] Response: ").concat(response.data.choices[0].message.replace("\n", "\\n")));
+                    console.log("".concat(Utils.GetTimeStamp(), " [OpenAI] Response: ").concat(response.data.choices[0].message.content.replace("\n", "\\n")));
                     console.log("".concat(Utils.GetTimeStamp(), " [OpenAI] Response Finish Reason: ").concat(response.data.choices[0].finish_reason));
                     console.log("".concat(Utils.GetTimeStamp(), " [OpenAI] End of Response"));
                     return [3 /*break*/, 4];

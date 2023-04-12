@@ -34,10 +34,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="app.js" />
-    <Content Include="Assets\Commands\Autos\DuoReminder.js" />
-    <Content Include="Assets\Commands\Autos\ProfilePic.js" />
-    <Content Include="Assets\Commands\Autos\Exercise.js" />
-    <Content Include="Assets\Commands\Autos\AutoSettings.js" />
     <Content Include="Assets\Commands\Autos\PauseFish.js">
       <SubType>Code</SubType>
     </Content>
@@ -47,15 +43,9 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="Assets\Commands\Fun\Weewoo.js" />
-    <Content Include="Assets\Commands\Game Specifics\LostArkChecklist.js" />
     <Content Include="Assets\Commands\Games\WaifuMemory.js" />
-    <Content Include="Assets\Commands\Utility\AudioPlayer - JS.js" />
     <Content Include="Assets\Commands\Utility\YTtoMP3.js" />
-    <Content Include="Assets\Commands\Utility\OpenAI - JS.js" />
     <Content Include="Assets\Disabled Commands\GoogleAssistant.js" />
-    <Content Include="Assets\Commands\Banking\Balance.js">
-      <SubType>Code</SubType>
-    </Content>
     <Content Include="Assets\Commands\Utility\Rules.js">
       <SubType>Code</SubType>
     </Content>
@@ -63,13 +53,6 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="Assets\include\Banking.js">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="Assets\Commands\Banking\OpenAccount.js">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="Assets\Commands\Banking\SendMoney.js" />
-    <Content Include="Assets\Commands\Banking\SetActiveCurrency.js">
       <SubType>Code</SubType>
     </Content>
     <Content Include="Assets\Commands\Beat Saber\MapGeneratorSimple.js" />
@@ -83,25 +66,14 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="Assets\Commands\Fun\HornyLogRework.js" />
-    <Content Include="Assets\Commands\Fun\MakePP.js" />
     <Content Include="Assets\Commands\Fun\Tuck.js" />
-    <Content Include="Assets\Commands\Fun\Waifu - JS.js" />
     <Content Include="Assets\Commands\Guild Settings\SetBotChannels.js">
       <SubType>Code</SubType>
     </Content>
     <Content Include="Assets\Commands\Guild Settings\SetBroadcastChannel.js" />
-    <Content Include="Assets\Commands\Utility\Counters.js">
-      <SubType>Code</SubType>
-    </Content>
     <Content Include="Assets\Commands\Utility\SetFakeAwakeStatus.js" />
     <Content Include="Assets\Commands\Utility\TwitchDropTime.js" />
     <Content Include="Assets\Commands\Utility\Broadcast.js">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="Assets\Data\AutosSettings.json">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="Assets\Data\Counters.json">
       <SubType>Code</SubType>
     </Content>
     <Content Include="Assets\Data\DuoReminderLog.json">
@@ -112,9 +84,6 @@
     </Content>
     <Content Include="Assets\Data\TuckGifs.json" />
     <Content Include="Assets\Data\HugGifs.json">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="Assets\Commands\Games\Blackjack.js">
       <SubType>Code</SubType>
     </Content>
     <Content Include="Assets\Gifs\Hugs\435865564720660480.gif" />
@@ -140,9 +109,6 @@
     <Content Include="Assets\Commands\Fun\Awake.js">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="Assets\Commands\Fun\Bark.js">
-      <SubType>Code</SubType>
-    </Content>
     <Content Include="Assets\Commands\Fun\Bonk.js">
       <SubType>Code</SubType>
     </Content>
@@ -161,13 +127,7 @@
     <Content Include="Assets\Commands\Fun\DoomFish.js">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="Assets\Commands\Fun\HowX - JS.js">
-      <SubType>Code</SubType>
-    </Content>
     <Content Include="Assets\Commands\Fun\Hug.js">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="Assets\Commands\Fun\PikaThisIsFine.js">
       <SubType>Code</SubType>
     </Content>
     <Content Include="Assets\Commands\Fun\ShoppingTrolley.js">
@@ -204,9 +164,6 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="Assets\Commands\Guild Settings\SetSafteyLevel.js" />
-    <Content Include="Assets\Commands\TestModules\PhotographyChallenge.js">
-      <SubType>Code</SubType>
-    </Content>
     <Content Include="Assets\Commands\Utility\Me.js">
       <SubType>Code</SubType>
     </Content>
@@ -234,9 +191,6 @@
     <Content Include="Assets\Commands\Utility\AudioPlayer.js">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="Assets\Commands\Utility\Choice.js">
-      <SubType>Code</SubType>
-    </Content>
     <Content Include="Assets\Commands\Utility\PetGenerator.js">
       <SubType>Code</SubType>
     </Content>
@@ -247,9 +201,6 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="Assets\Data\8BallResponses.json">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="Assets\Data\Banking.json">
       <SubType>Code</SubType>
     </Content>
     <Content Include="Assets\Data\GuildConfigs.json">
@@ -309,27 +260,6 @@
     <Content Include="Assets\Images\WantedPoster.png" />
     <Content Include="Assets\Images\weewoo.png" />
     <Content Include="Assets\Images\WorstPrisonCell.png" />
-    <Content Include="Assets\include\ConversationAI\autoLearn.js">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="Assets\include\DiscordGameEngine\animation.js">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="Assets\include\DiscordGameEngine\asciiGraphicsEngine.js">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="Assets\include\DiscordGameEngine\actor.js">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="Assets\include\DiscordGameEngine\controls.js">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="Assets\include\DiscordGameEngine\navArea.js">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="Assets\include\DiscordGameEngine\emoteGraphicsEngine.js">
-      <SubType>Code</SubType>
-    </Content>
     <Content Include="Assets\Commands\Utility\Ping.js">
       <SubType>Code</SubType>
     </Content>
@@ -352,9 +282,6 @@
     <Content Include="Assets\Images\PinkCellBars.png" />
     <Content Include="Assets\Images\PinkJailCell.png" />
     <Content Include="Assets\Gifs\Bonk\SadPepeCatBonk.gif" />
-    <Content Include="Assets\include\DiscordGameEngine\sprite.js">
-      <SubType>Code</SubType>
-    </Content>
     <Content Include="Assets\include\MessageChainHandler.js">
       <SubType>Code</SubType>
     </Content>
@@ -387,15 +314,11 @@
     <Content Include="tsconfig.json">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="UI\index.html" />
-    <Content Include="UI\style.css" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\" />
-    <Folder Include="Assets\Commands\Banking\" />
     <Folder Include="Assets\Commands\Guild Settings\" />
     <Folder Include="Assets\Commands\Christmas\" />
-    <Folder Include="Assets\Commands\Game Specifics\" />
     <Folder Include="Assets\Commands\TestModules\" />
     <Folder Include="Assets\Commands\Fun\" />
     <Folder Include="Assets\Commands\Beat Saber\" />
@@ -411,17 +334,14 @@
     <Folder Include="Assets\Gifs\Bonk\" />
     <Folder Include="Assets\Images\ShoppingTrolley\" />
     <Folder Include="Assets\include\" />
-    <Folder Include="Assets\include\DiscordGameEngine\" />
     <Folder Include="Assets\Commands\Games\" />
     <Folder Include="Assets\Gifs\" />
-    <Folder Include="Assets\include\ConversationAI\" />
     <Folder Include="Assets\Guild Assets\" />
     <Folder Include="Assets\Disabled Commands\" />
     <Folder Include="Assets\Webpages\" />
     <Folder Include="Assets\temp\" />
     <Folder Include="Assets\Webpages\FrontEnd\" />
     <Folder Include="Assets\Webpages\Playground\" />
-    <Folder Include="UI\" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Assets\Commands\Fun\HowX.ts">

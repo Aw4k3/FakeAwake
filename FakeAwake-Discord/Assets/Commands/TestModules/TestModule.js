@@ -61,60 +61,17 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.aliases = exports.category = exports.title = exports.NSFW = exports.Run = void 0;
 var DiscordVoice = __importStar(require("@discordjs/voice"));
-var GoogleTts = __importStar(require("google-tts-api"));
-var Utils = __importStar(require("../../include/Utils.js"));
 var vc;
 var connection;
 var audioplayer = new DiscordVoice.AudioPlayer();
 function Run(message, args, argswithcase, client) {
     return __awaiter(this, void 0, void 0, function () {
-        var audiostream, i, audioresource;
         return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, message.member.voice.channel];
-                case 1:
-                    vc = _a.sent();
-                    if (vc == null) {
-                        message.channel.send("".concat(message.member.user, " vc?"));
-                        return [2 /*return*/, true];
-                    }
-                    connection = DiscordVoice.joinVoiceChannel({
-                        channelId: vc.id,
-                        guildId: vc.guild.id,
-                        adapterCreator: vc.guild.voiceAdapterCreator
-                    });
-                    // Event Handlers
-                    connection.on(DiscordVoice.VoiceConnectionStatus.Disconnected, DisconnectHandler);
-                    audioplayer.on("error", PlayerErrorHandler);
-                    return [4 /*yield*/, GoogleTts.getAllAudioUrls("I am Fake Awake", { lang: "en" })];
-                case 2:
-                    audiostream = _a.sent();
-                    for (i = 0; i < audiostream.length; i++) {
-                        audioresource = DiscordVoice.createAudioResource(audiostream[i].url, { inputType: DiscordVoice.StreamType.Opus });
-                        connection.subscribe(audioplayer);
-                        audioplayer.play(audioresource);
-                    }
-                    return [2 /*return*/, true];
-            }
+            return [2 /*return*/, true];
         });
     });
 }
 exports.Run = Run;
-// Event Handlers
-function DisconnectHandler() {
-    try {
-        DiscordVoice.entersState(connection, DiscordVoice.VoiceConnectionStatus.Signalling, 5000);
-        DiscordVoice.entersState(connection, DiscordVoice.VoiceConnectionStatus.Connecting, 5000);
-    }
-    catch (e) {
-        console.log("".concat(Utils.GetTimeStamp(), " ").concat(e));
-        connection.destroy();
-    }
-}
-function PlayerErrorHandler(error) {
-    console.log("".concat(Utils.GetTimeStamp(), " Error: ").concat(error.message, " with resource ").concat(error.resource.metadata.title));
-    connection.destroy();
-}
 exports.NSFW = false;
 exports.title = "TestModuleTs";
 exports.category = global.COMMAND_CATEGORIES.UTILITY.NAME;

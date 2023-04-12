@@ -106,32 +106,18 @@ CLIENT.on("messageCreate", DiscordBotOnMessageCreateHandler)
 
 function DiscordBotReadyHandler() {
     CLIENT.user.setPresence(JSON.parse(FileSystem.readFileSync("./Assets/Data/FakeAwakeStatus.json", "utf-8")));
-
     console.log(`${Utils.GetTimeStamp()} Loaded in ${(new Date().getTime() - START_TIME) / 1000} seconds!`);
     console.log(`${Utils.GetTimeStamp()} Logged in as ${CLIENT.user.tag}!`);
-
-    if (CommandHandler.GetCommands().get("set_avatar").Run(null, null, null, CLIENT)) { console.log(`${Utils.GetTimeStamp()} [Command Handler] Successfully executed command "${CommandHandler.GetCommands().get("profilepic").name}"`); }
-
-    if (CommandHandler.GetCommands().get("exercise").Run(null, null, null, CLIENT)) { console.log(`${Utils.GetTimeStamp()} [Command Handler] Successfully executed command "${CommandHandler.GetCommands().get("exercise").name}"`); }
-
-    if (CommandHandler.GetCommands().get("duoreminder").Run(null, null, null, CLIENT)) { console.log(`${Utils.GetTimeStamp()} [Command Handler] Successfully executed command "${CommandHandler.GetCommands().get("duoreminder").name}"`); }
 }
 
 function DiscordBotOnMessageCreateHandler(message) {
     if (pause_execution) return;
 
     var resolved_prefix = ResolvePrefix(message);
-    
-    // Regular Message Events
-    if (message.channel.id === "907994759413518378")
-        if (CommandHandler.GetCommands().get("photoChallenge").submit(message, CLIENT)) { console.log(`${Utils.GetTimeStamp()} [Command Handler] Successfully executed command "${CommandHandler.GetCommands().get("photoChallenge").name}"`); }
-    
+
+    // Regular message events    
     if (message.channel.id === "876035515512655872")
         if (CommandHandler.GetCommands().get("autoPauseFish").Run(message, args, args_with_case, CLIENT)) { console.log(`${Utils.GetTimeStamp()} [Command Handler] Successfully executed command "${CommandHandler.GetCommands().get("autoPauseFish").name}"`); }
-    
-    // Add one balance to user per message
-    // Only ticks if they have an open account
-     // FILE GOT CORRUPTED 20/09/2022 // if (message.content[0] !== resolved_prefix.prefix) { Banking.TickBalance(message.author); }
 
     MessageChainHandler.Resolve(message);
     

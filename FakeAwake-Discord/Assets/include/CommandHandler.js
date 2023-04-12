@@ -2,9 +2,9 @@
 
 const Discord = require("discord.js");
 const FileSystem = require("fs");
-const GuildSettings = require("./GuildSettings.js");
-const Random = require("./Random.js");
-const Status = require("./Status.js");
+const GuildSettings = require("./GuildSettings");
+const Random = require("./Random");
+const Status = require("./Status");
 
 global.COMMAND_CATEGORIES = {
     BEAT_SABER: {
@@ -50,7 +50,7 @@ var help_menu = new Discord.MessageEmbed()
 var Utils = null;
 
 try {
-    Utils = require("./Utils.js");
+    Utils = require("./Utils");
 } catch (e) {
     var Utils = { getTimeStamp: null };
     Utils.getTimeStamp = function () { return ""; }

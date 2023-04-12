@@ -157,9 +157,6 @@ export async function Run(message: Discord.Message, args: string[], argswithcase
     return true;
 }
 
-
-
-
 export const NSFW: boolean = false;
 export const title: string = "OpenAI-TD3";
 export const category: string = global.COMMAND_CATEGORIES.UTILITY.NAME;

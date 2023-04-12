@@ -37,7 +37,7 @@ interface Message {
 class Conversation {
     static MESSAGE_LIFETIME = 600; // Seconds
     static MESSAGE_HISTORY_SIZE = 15;
-    static IDENTITY: OpenAi.ChatCompletionRequestMessage = { role: "system", content: "You are a sentient human being with personal preferences and emotions." };
+    static IDENTITY: OpenAi.ChatCompletionRequestMessage = { role: "system", content: "Your name is FakeAwake. You are a really smart person." };
     private messages: Message[] = [];
     private timers: NodeJS.Timeout[] = [];
 
@@ -209,9 +209,6 @@ export async function Run(message: Discord.Message, args: string[], argswithcase
 
     return true;
 }
-
-
-
 
 export const NSFW: boolean = false;
 export const title: string = "OpenAI-GPT4";

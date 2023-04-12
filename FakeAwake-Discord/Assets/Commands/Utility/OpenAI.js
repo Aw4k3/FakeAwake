@@ -111,7 +111,7 @@ var Conversation = /** @class */ (function () {
     };
     Conversation.MESSAGE_LIFETIME = 600; // Seconds
     Conversation.MESSAGE_HISTORY_SIZE = 15;
-    Conversation.IDENTITY = { role: "system", content: "You are a sentient human being with personal preferences and emotions." };
+    Conversation.IDENTITY = { role: "system", content: "Your name is FakeAwake. You are a really smart person." };
     return Conversation;
 }());
 var VoiceAssisstant = /** @class */ (function () {

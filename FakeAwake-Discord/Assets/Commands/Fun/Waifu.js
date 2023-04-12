@@ -59,31 +59,204 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Run = void 0;
+exports.aliases = exports.category = exports.title = exports.NSFW = exports.Run = void 0;
 var Discord = __importStar(require("discord.js"));
+var NekosLife = __importStar(require("nekos.life"));
+var Utils = __importStar(require("../../include/Utils.js"));
 var instances = new Map();
+var NEKO_CLIENT = new NekosLife.default;
 var REROLL_BUTTON = new Discord.MessageButton()
     .setCustomId("reroll")
     .setLabel("Reroll")
     .setStyle("SUCCESS");
 var WAIFU_MENU = new Discord.MessageSelectMenu()
-    .setCustomId("skip-to")
-    .setPlaceholder("Skip to...");
-var ACTION_ROW = new Discord.MessageActionRow()
-    .addComponents(WAIFU_MENU);
-var Instance = /** @class */ (function () {
-    function Instance() {
-        this.type = "avatar";
-        this.embed = new Discord.MessageEmbed();
+    .setCustomId("endpoint")
+    .setPlaceholder("Waifu Type")
+    .addOptions([
+    {
+        label: "Avatar",
+        value: "avatar",
+        emoji: "772950364437610518"
+    },
+    {
+        label: "Cuddle",
+        value: "cuddle",
+        emoji: "883376930282414100"
+    },
+    {
+        label: "Feed",
+        value: "feed",
+        emoji: "852926235919122452"
+    },
+    {
+        label: "Foxgirl",
+        value: "fox_girl",
+        emoji: "800166987099144192"
+    },
+    {
+        label: "Gasm",
+        value: "gasm",
+        emoji: "857029075260407819"
+    },
+    {
+        label: "Genetically Engineered Catgirl",
+        value: "gecg",
+        emoji: "951057797037064213"
+    },
+    {
+        label: "Goose",
+        value: "goose",
+        emoji: "918653131565432852"
+    },
+    {
+        label: "Hug",
+        value: "hug",
+        emoji: "1008812073368694915"
+    },
+    {
+        label: "Kiss",
+        value: "kiss",
+        emoji: "788152154585301022"
+    },
+    {
+        label: "Lewd",
+        value: "lewd",
+        emoji: "801906570829103144"
+    },
+    {
+        label: "Lizard",
+        value: "lizard",
+        emoji: "852923680718848060"
+    },
+    {
+        label: "Meow",
+        value: "meow",
+        emoji: "885283542576295957"
+    },
+    {
+        label: "Neko",
+        value: "neko",
+        emoji: "902939601814052904"
+    },
+    {
+        label: "Neko Gif",
+        value: "ngif",
+        emoji: "902939601814052904"
+    },
+    {
+        label: "Pat",
+        value: "pat",
+        emoji: "822152587033837579"
+    },
+    {
+        label: "Slap",
+        value: "slap",
+        emoji: "638480830204870710"
+    },
+    {
+        label: "Smug",
+        value: "smug",
+        emoji: "701255431854489630"
+    },
+    {
+        label: "Spank",
+        value: "spank",
+        description: "? Possible NSFW results",
+        emoji: "648393455264989196"
+    },
+    {
+        label: "Tickle",
+        value: "tickle",
+        emoji: "852924118239936522"
+    },
+    {
+        label: "Wallpaper",
+        value: "wallpaper",
+        description: "? Possible NSFW results",
+        emoji: "586303697739448320"
+    },
+    {
+        label: "Woof",
+        value: "woof",
+        emoji: "808379650341339175"
     }
+]);
+var ACTION_ROW_MENU = new Discord.MessageActionRow()
+    .addComponents(WAIFU_MENU);
+var ACTION_ROW_BUTTONS = new Discord.MessageActionRow()
+    .addComponents(REROLL_BUTTON);
+var Instance = /** @class */ (function () {
+    function Instance(channel) {
+        this.endpoint = "avatar";
+        this.message = null;
+        this.embed = new Discord.MessageEmbed();
+        this.interactioncollector = null;
+        this.Instance(channel);
+    }
+    Instance.prototype.Instance = function (channel) {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, data, _a;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0: return [4 /*yield*/, fetch("https://nekos.life/api/v2/img/".concat(this.endpoint))];
+                    case 1:
+                        response = _b.sent();
+                        return [4 /*yield*/, response.json()];
+                    case 2:
+                        data = _b.sent();
+                        this.embed.setTitle("Waifus")
+                            .setImage(data.url)
+                            .setFooter({ text: Utils.CapitilizeFirstLetter(this.endpoint) });
+                        _a = this;
+                        return [4 /*yield*/, channel.send({ embeds: [this.embed], components: [ACTION_ROW_MENU, ACTION_ROW_BUTTONS] })];
+                    case 3:
+                        _a.message = _b.sent();
+                        this.interactioncollector = this.message.createMessageComponentCollector();
+                        this.interactioncollector.on("collect", this.InteractionHandler.bind(this));
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    Instance.prototype.InteractionHandler = function (interaction) {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, data;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (interaction.customId == "endpoint")
+                            this.endpoint = interaction.values[0];
+                        return [4 /*yield*/, fetch("https://nekos.life/api/v2/img/".concat(this.endpoint))];
+                    case 1:
+                        response = _a.sent();
+                        return [4 /*yield*/, response.json()];
+                    case 2:
+                        data = _a.sent();
+                        console.log(data);
+                        this.embed.setImage(data.url)
+                            .setFooter({ text: Utils.CapitilizeFirstLetter(this.endpoint) });
+                        this.message.edit({ embeds: [this.embed], components: [ACTION_ROW_MENU, ACTION_ROW_BUTTONS] });
+                        interaction.deferUpdate();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
     return Instance;
 }());
 function Run(message, args, argswithcase, client) {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
+            instances.set(message.channel.id, new Instance(message.channel));
             return [2 /*return*/, true];
         });
     });
 }
 exports.Run = Run;
+exports.NSFW = false;
+exports.title = "Waifu";
+exports.category = global.COMMAND_CATEGORIES.UTILITY.NAME;
+exports.aliases = [
+    ["waifu"]
+];
 //# sourceMappingURL=Waifu.js.map
