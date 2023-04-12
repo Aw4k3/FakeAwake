@@ -1,12 +1,11 @@
 // @ts-check
 
-const OpenAI = require("openai");
+const OpenAi = require("openai");
 const FileSystem = require("fs");
 const Utils = require("../../include/Utils.js");
 
-const SECRETS = JSON.parse(FileSystem.readFileSync("./secrets/FakeAwake Secrets.json", "utf8"));
-const OPENAI_CONFIG = new OpenAI.Configuration({ apiKey: SECRETS.OpenAI.Secret });
-const OPENAI_API = new OpenAI.OpenAIApi(OPENAI_CONFIG);
+const OPENAI_CONFIG = new OpenAi.Configuration({ apiKey: process.env.OPENAI_API_KEY });
+const OPENAI_API = new OpenAi.OpenAIApi(OPENAI_CONFIG);
 
 var text_settings = {
     model: "text-davinci-003",

@@ -61,10 +61,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.aliases = exports.category = exports.name = exports.NSFW = exports.Run = void 0;
 var OpenAi = __importStar(require("openai"));
-var FileSystem = __importStar(require("fs"));
 var Utils = require("../../include/Utils.js");
-var SECRETS = JSON.parse(FileSystem.readFileSync("./secrets/FakeAwake Secrets.json", "utf8"));
-var OPENAI_CONFIG = new OpenAi.Configuration({ apiKey: SECRETS.OpenAI.Secret });
+var OPENAI_CONFIG = new OpenAi.Configuration({ apiKey: process.env.OPENAI_API_KEY });
 var OPENAI_API = new OpenAi.OpenAIApi(OPENAI_CONFIG);
 var conversations = new Map();
 var settings = {

@@ -6,8 +6,7 @@ import * as GoogleTts from "google-tts-api";
 import * as WebClient from "../../include/webclient.js";
 import * as Utils from "../../include/Utils.js";
 
-const SECRETS = JSON.parse(FileSystem.readFileSync("./secrets/FakeAwake Secrets.json", "utf8"));
-const OPENAI_CONFIG = new OpenAi.Configuration({ apiKey: SECRETS.OpenAI.Secret });
+const OPENAI_CONFIG = new OpenAi.Configuration({ apiKey: process.env.OPENAI_API_KEY });
 const OPENAI_API = new OpenAi.OpenAIApi(OPENAI_CONFIG);
 
 var settings = {

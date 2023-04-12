@@ -3,8 +3,7 @@ import * as FileSystem from "fs";
 import * as Twitch from "tmi.js";
 const Utils = require("../../include/Utils.js");
 
-const SECRETS = JSON.parse(FileSystem.readFileSync("./secrets/FakeAwake Secrets.json", "utf8"));
-const OPENAI_CONFIG = new OpenAi.Configuration({ apiKey: SECRETS.OpenAI.Secret });
+const OPENAI_CONFIG = new OpenAi.Configuration({ apiKey: process.env.OPENAI_API_KEY });
 const OPENAI_API = new OpenAi.OpenAIApi(OPENAI_CONFIG);
 
 let conversations = new Map<string, Conversation>();

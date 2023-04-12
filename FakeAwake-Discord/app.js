@@ -11,8 +11,6 @@ const MessageChainHandler = require("./Assets/include/MessageChainHandler.js");
 
 const DateTime = new Date();
 const START_TIME = DateTime.getTime();
-const SECRETS = JSON.parse(FileSystem.readFileSync("./secrets/FakeAwake Secrets.json", "utf8"));
-const TOKEN = SECRETS.Discord.Token;
 const ReadLine = readline.createInterface({
     input: process.stdin,
     output: process.stdout
@@ -145,7 +143,7 @@ function DiscordBotOnMessageCreateHandler(message) {
     CommandHandler.Resolve(message, args, args_with_case, CLIENT);
 };
 
-CLIENT.login(TOKEN);
+CLIENT.login(process.env.DISCORD_BOT_TOKEN);
 
 
 /**************************** Process Handler ****************************/

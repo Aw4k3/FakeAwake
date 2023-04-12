@@ -63,12 +63,10 @@ exports.aliases = exports.category = exports.title = exports.NSFW = exports.Run 
 var Discord = __importStar(require("discord.js"));
 var DiscordVoice = __importStar(require("@discordjs/voice"));
 var OpenAi = __importStar(require("openai"));
-var FileSystem = __importStar(require("fs"));
 var GoogleTts = __importStar(require("google-tts-api"));
 var WebClient = __importStar(require("../../include/webclient.js"));
 var Utils = __importStar(require("../../include/Utils.js"));
-var SECRETS = JSON.parse(FileSystem.readFileSync("./secrets/FakeAwake Secrets.json", "utf8"));
-var OPENAI_CONFIG = new OpenAi.Configuration({ apiKey: SECRETS.OpenAI.Secret });
+var OPENAI_CONFIG = new OpenAi.Configuration({ apiKey: process.env.OPENAI_API_KEY });
 var OPENAI_API = new OpenAi.OpenAIApi(OPENAI_CONFIG);
 var conversations = new Map();
 var settings = {
