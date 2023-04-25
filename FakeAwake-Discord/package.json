@@ -23,7 +23,7 @@
     "node-gyp": "^9.3.1",
     "node-opus": "^0.3.3",
     "openai": "^3.2.1",
-    "sharp": "^0.31.3",
+    "sharp": "^0.32.0",
     "spotify-uri": "^3.0.3",
     "spotify-web-api-node": "^5.0.2",
     "stream-buffers": "^3.0.2",

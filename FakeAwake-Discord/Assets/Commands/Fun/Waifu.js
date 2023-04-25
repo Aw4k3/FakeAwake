@@ -218,6 +218,9 @@ var Instance = /** @class */ (function () {
             });
         });
     };
+    Instance.prototype.Deinitialise = function () {
+        this.message.edit({ embeds: [this.embed], components: [] });
+    };
     Instance.prototype.InteractionHandler = function (interaction) {
         return __awaiter(this, void 0, void 0, function () {
             var response, data;
@@ -247,6 +250,8 @@ var Instance = /** @class */ (function () {
 function Run(message, args, argswithcase, client) {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
+            if (instances.has(message.channel.id))
+                instances.get(message.channel.id).Deinitialise();
             instances.set(message.channel.id, new Instance(message.channel));
             return [2 /*return*/, true];
         });

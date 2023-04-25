@@ -1,422 +1,169 @@
-// @ts-check
-
-const Discord = require("discord.js");
-const Status = require("../../include/Status.js");
-const Utils = require("../../include/Utils.js");
-const Sharp = require("sharp");
-const Vector = require("three");
-const Chroma = require("chroma-js");
-const WebClient = require("../../include/WebClient.js");
-const FileSystem = require("fs");
-
-const ICON = new Discord.MessageAttachment("./Assets/Images/PaintPalette.png")
-const COLOUR_SPACES = ["srgb", "rgb", "cymk", "lab", "bw"];
-var editLogEmbed = new Discord.MessageEmbed()
-    .setTitle("Successfully edited image")
-    .setColor(Status.StatusColor("OK"))
-    .setThumbnail("attachment://PaintPalette.png")
-    .setFooter("Image Tools");
-
-const OPERATIONS = {
-    RESIZE: 0,
-    COLOUR_SPACE: 1,
-    GRAYSCALE: 2,
-    HUE_SHIFT: 3,
-    SET_SATURATION: 4,
-    SET_BRIGHTNESS: 5,
-    TINT: 6,
-    BLUR: 7,
-    HORIZTONAL_FLIP: 8,
-    VERTICAL_FLIP: 9,
-    ROTATE: 10,
-    SHARPEN: 11,
-    THRESHOLD: 12,
-    TO_PNG: 13
-}
-
-class Operation {
-    operation = -1;
-    data = {};
-
-    constructor(operation, data) {
-        this.operation = operation;
-        this.data = data;
+"use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
     }
-}
-
-class Editor {
-    image = Sharp();
-    success = false;
-    errors = [];
-    operation_queue = [];
-    operation_log = [];
-
-    async ResolveOperations(args) {
-        for (var i = 0; i < args.length; i++) {
-            switch (args[i]) {
-                case "-res":
-                case "-resize":
-                case "-resolution":
-                    {
-                        if (!args[i + 1] && !args[i + 2]) {
-                            this.errors.push("Invalid Resolution! Expected <int:width> <int:height>");
-                            return;
-                        }
-
-                        let temp = new Vector.Vector2(parseInt(args[i + 1]) || 0, parseInt(args[i + 2]) || 0);
-
-                        if (temp.x == 0 || temp.y == 0) {
-                            this.errors.push("Invalid Resolution! Expected <int:width> <int:height>");
-                            return;
-                        }
-
-                        this.operation_queue.push(new Operation(OPERATIONS.RESIZE, { width: temp.x, height: temp.y }));
-                    }
-                    break;
-
-                case "-colourspace":
-                case "-colorspace":
-                case "-cs":
-                    if (!args[i + 1]) {
-                        this.errors.push(`Invalid Colour Space! Expected <string:colourspace>\nPossible colour spaces [${COLOUR_SPACES.join(", ")}]`);
-                        return;
-                    }
-
-                    if (!COLOUR_SPACES.includes(args[i + 1])) {
-                        this.errors.push(`Invalid Colour Space! Expected <string:colourspace>\nPossible colour spaces [${COLOUR_SPACES.join(", ")}]`);
-                        return;
-                    }
-
-                    this.operation_queue.push(new Operation(OPERATIONS.COLOUR_SPACE, { value: args[i + 1] }));
-
-                    break;
-
-                case "-grayscale":
-                case "-greyscale":
-                    this.operation_queue.push(new Operation(OPERATIONS.GRAYSCALE, {}));
-                    break;
-
-                case "-hue":
-                case "-hueshift":
-                case "-hs":
-                    {
-                        if (!args[i + 1]) {
-                            this.errors.push(`Invalid Value! Expected <float:value>`);
-                            return;
-                        }
-
-                        let temp = parseFloat(args[i + 1]) || 0;
-
-                        this.operation_queue.push(new Operation(OPERATIONS.HUE_SHIFT, { value: temp }));
-                    }
-                    break;
-
-                case "-sat":
-                case "-saturation":
-                    {
-                        if (!args[i + 1]) {
-                            this.errors.push(`Invalid Value! Expected <float:value>`);
-                            return;
-                        }
-
-                        let temp = parseFloat(args[i + 1]) || 0;
-
-                        this.operation_queue.push(new Operation(OPERATIONS.SET_SATURATION, { value: temp }));
-                    }
-                    break;
-
-                case "-bright":
-                case "-brightness":
-                    {
-                        if (!args[i + 1]) {
-                            this.errors.push(`Invalid Value! Expected <float:value>`);
-                            return;
-                        }
-
-                        let temp = parseFloat(args[i + 1]) || 0;
-
-                        this.operation_queue.push(new Operation(OPERATIONS.SET_BRIGHTNESS, { value: temp }));
-                    }
-                    break;
-
-                case "-tint":
-                    {
-                        if (!args[i + 1] && !args[i + 2] && !args[i + 2]) {
-                            this.errors.push(`Invalid Value! Expected <int:red> <int:blue> <int:green>`);
-                            return;
-                        }
-
-                        let temp = new Vector.Vector3(parseInt(args[i + 1]) || -1, parseInt(args[i + 2]) || -1, parseInt(args[i + 3]) || -1);
-                        if (temp.x < 0 || temp.y < 0 || temp.z < 0) {
-                            this.errors.push(`Invalid Value! Expected <int:red> <int:blue> <int:green>`);
-                            return
-                        }
-
-                        temp.clamp(new Vector.Vector3(0, 0, 0), new Vector.Vector3(255, 255, 255));
-
-                        this.operation_queue.push(new Operation(OPERATIONS.SET_BRIGHTNESS, { value: temp }));
-                    }
-                    break;
-
-                case "-flip":
-                case "-horizontalflip":
-                    this.operation_queue.push(new Operation(OPERATIONS.HORIZTONAL_FLIP, {}));
-                    break;
-
-                case "-flop":
-                case "-verticalflip":
-                    this.operation_queue.push(new Operation(OPERATIONS.VERTICAL_FLIP, {}));
-                    break;
-
-                case "-rot":
-                case "-rotate":
-                    {
-                        if (!args[i + 1]) {
-                            this.errors.push(`Invalid Value! Expected <float:degrees>`);
-                            return;
-                        }
-
-                        let temp = parseFloat(args[i + 1]) || 0;
-
-                        this.operation_queue.push(new Operation(OPERATIONS.ROTATE, { value: temp }));
-                    }
-                    break;
-
-                case "-sharpen":
-                    {
-                        if (!args[i + 1]) {
-                            this.errors.push(`Invalid Value! Expected <float:value>`);
-                            return;
-                        }
-
-                        let temp = parseFloat(args[i + 1]) || 0;
-
-                        this.operation_queue.push(new Operation(OPERATIONS.SHARPEN, { value: temp }));
-                    }
-                    break;
-
-                case "-threshold":
-                case "-th":
-                    {
-                        if (!args[i + 1]) {
-                            this.errors.push(`Invalid Value! Expected <float:value>`);
-                            return;
-                        }
-
-                        let temp = parseFloat(args[i + 1]) || 0;
-                        temp = Utils.Clamp(temp, 0, 255);
-
-                        this.operation_queue.push(new Operation(OPERATIONS.THRESHOLD, { value: temp }));
-                    }
-                    break;
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
             }
-        }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
-
-    async Run() {
-        if (this.operation_queue.length < 1) return;
-
-        for (var i = 0; i < this.operation_queue.length; i++) {
-            switch (this.operation_queue[i].operation) {
-                case OPERATIONS.RESIZE:
-                    await this.image.resize(this.operation_queue[i].data.width, this.operation_queue[i].data.height, { fit: "fill" });
-                    this.operation_log.push(`Resized - ${this.operation_queue[i].data.width}x${this.operation_queue[i].data.height}`);
-                    console.log(`${Utils.GetTimeStamp()} [ImageTools] Resized - ${this.operation_queue[i].data.width}x${this.operation_queue[i].data.height}`);
-                    break;
-
-                case OPERATIONS.COLOUR_SPACE:
-                    await this.image.toColourspace(this.operation_queue[i].data.width);
-                    this.operation_log.push(`Colourspace set to ${this.operation_queue[i].data.width}`);
-                    console.log(`${Utils.GetTimeStamp()} [ImageTools] Colourspace set to ${this.operation_queue[i].data.width}`);
-                    break;
-
-                case OPERATIONS.GRAYSCALE:
-                    await this.image.grayscale();
-                    this.operation_log.push(`Grayscaled`);
-                    console.log(`${Utils.GetTimeStamp()} [ImageTools] Grayscaled`);
-                    break;
-
-                case OPERATIONS.HUE_SHIFT:
-                    await this.image.modulate({ hue: this.operation_queue[i].data.value });
-                    this.operation_log.push(`Hue shifted: ${this.operation_queue[i].data.value} degrees`);
-                    console.log(`${Utils.GetTimeStamp()} [ImageTools] Hue shifted: ${this.operation_queue[i].data.value} degrees`);
-                    break;
-
-                case OPERATIONS.SET_SATURATION:
-                    await this.image.modulate({ saturation: this.operation_queue[i].data.value });
-                    this.operation_log.push(`Set Saturation: ${this.operation_queue[i].data.value}`);
-                    console.log(`${Utils.GetTimeStamp()} [ImageTools] Set Saturation: ${this.operation_queue[i].data.value}`);
-                    break;
-
-                case OPERATIONS.SET_BRIGHTNESS:
-                    await this.image.modulate({ brightness: this.operation_queue[i].data.value });
-                    this.operation_log.push(`Set Brightness: ${this.operation_queue[i].data.value}`);
-                    console.log(`${Utils.GetTimeStamp()} [ImageTools] Set Brightness: ${this.operation_queue[i].data.value}`);
-                    break;
-
-                case OPERATIONS.TINT:
-                    let _temp = this.operation_queue[i].data.value;
-                    await this.image.tint(new Chroma(_temp.x, _temp.y, _temp.z));
-                    this.operation_log.push(`Tint Applied - R: ${_temp.x} G: ${_temp.y} B: ${_temp.z}`);
-                    console.log(`${Utils.GetTimeStamp()} [ImageTools] Tint Applied - R: ${_temp.x} G: ${_temp.y} B: ${_temp.z}`);
-                    break;
-
-                case OPERATIONS.BLUR:
-                    await this.image.blur(this.operation_queue[i].data.value);
-                    this.operation_log.push(`Blurred: ${this.operation_queue[i].data.value} Radius`);
-                    console.log(`${Utils.GetTimeStamp()} [ImageTools] Blurred: ${this.operation_queue[i].data.value} Radius`);
-                    break;
-
-                case OPERATIONS.HORIZTONAL_FLIP:
-                    await this.image.flop();
-                    this.operation_log.push(`Horizontally Flipped`);
-                    console.log(`${Utils.GetTimeStamp()} [ImageTools] Horizontally Flipped`);
-                    break;
-
-                case OPERATIONS.VERTICAL_FLIP:
-                    await this.image.flip();
-                    this.operation_log.push(`Vertically Flipped`);
-                    console.log(`${Utils.GetTimeStamp()} [ImageTools] Vertically Flipped`);
-                    break;
-
-                case OPERATIONS.ROTATE:
-                    await this.image.rotate(this.operation_queue[i].data.value);
-                    this.operation_log.push(`Rotated: ${this.operation_queue[i].data.value} degrees`);
-                    console.log(`${Utils.GetTimeStamp()} [ImageTools] Rotated: ${this.operation_queue[i].data.value} degrees`);
-                    break;
-
-                case OPERATIONS.SHARPEN:
-                    await this.image.sharpen(this.operation_queue[i].data.value);
-                    this.operation_log.push(`Sharpened: ${this.operation_queue[i].data.value}`);
-                    console.log(`${Utils.GetTimeStamp()} [ImageTools] Sharpened: ${this.operation_queue[i].data.value}`);
-                    break;
-
-                case OPERATIONS.THRESHOLD:
-                    await this.image.threshold(this.operation_queue[i].data.value);
-                    this.operation_log.push(`Threshold: ${this.operation_queue[i].data.value}`);
-                    console.log(`${Utils.GetTimeStamp()} [ImageTools] Threshold: ${this.operation_queue[i].data.value}`);
-                    break;
-
-                case OPERATIONS.TO_PNG:
-                    this.operation_log.push(`Format: PNG`);
-                    console.log(`${Utils.GetTimeStamp()} [ImageTools] Format: PNG`);
-                    break;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.aliases = exports.category = exports.title = exports.NSFW = exports.Run = void 0;
+var Discord = __importStar(require("discord.js"));
+var FileSystem = __importStar(require("fs"));
+var Sharp = __importStar(require("sharp"));
+var WebClient = __importStar(require("../../include/WebClient.js"));
+function Run(message, args, argswithcase, client) {
+    return __awaiter(this, void 0, void 0, function () {
+        var url, extention, image, i;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    if (message.attachments.size < 1) {
+                        // send usage embed
+                        return [2 /*return*/, true];
+                    }
+                    url = message.attachments.first().url;
+                    extention = url.split(".")[url.split(".").length - 1];
+                    return [4 /*yield*/, WebClient.DownloadFileAsync(url, "./Assets/temp/original.".concat(extention))];
+                case 1:
+                    _a.sent();
+                    image = Sharp.default("./Assets/temp/original.".concat(extention));
+                    for (i = 0; i < args.length; i++) {
+                        switch (args[i]) {
+                            // Resizing
+                            case "-width":
+                                if (parseInt(args[i + 1], 10))
+                                    image.resize({ width: parseInt(args[i + 1], 10), fit: Sharp.fit.fill });
+                                break;
+                            case "-height":
+                                if (parseInt(args[i + 1], 10))
+                                    image.resize({ height: parseInt(args[i + 1], 10), fit: Sharp.fit.fill });
+                                break;
+                            // Image Operations
+                            case "-rotate":
+                                if (parseInt(args[i + 1], 10))
+                                    image.rotate(parseInt(args[i + 1], 10));
+                                break;
+                            case "-flip":
+                                image.flip();
+                                break;
+                            case "-flop":
+                                image.flop();
+                                break;
+                            case "-sharpen":
+                                if (parseFloat(args[i + 1]))
+                                    image.sharpen(parseFloat(args[i + 1]));
+                                break;
+                            case "-blur":
+                                if (parseFloat(args[i + 1]))
+                                    image.blur(parseFloat(args[i + 1]));
+                                break;
+                            case "-gamma":
+                                if (parseFloat(args[i + 1]))
+                                    image.gamma(parseFloat(args[i + 1]));
+                                break;
+                            case "-negate":
+                                if (parseInt(args[i + 1], 10))
+                                    image.negate();
+                                break;
+                            case "-threshold":
+                                if (parseInt(args[i + 1], 10))
+                                    image.threshold(parseInt(args[i + 1], 10));
+                                break;
+                            case "-hueshift":
+                                if (parseFloat(args[i + 1]))
+                                    image.modulate({ hue: parseFloat(args[i + 1]) });
+                                break;
+                            case "-saturation":
+                                if (parseFloat(args[i + 1]))
+                                    image.modulate({ saturation: parseFloat(args[i + 1]) });
+                                break;
+                            case "-lightness":
+                                if (parseFloat(args[i + 1]))
+                                    image.modulate({ lightness: parseFloat(args[i + 1]) });
+                                break;
+                            case "-brightness":
+                                if (parseFloat(args[i + 1]))
+                                    image.modulate({ brightness: parseFloat(args[i + 1]) });
+                                break;
+                            case "-greyscale":
+                                image.greyscale();
+                                break;
+                        }
+                    }
+                    // Save and send image
+                    return [4 /*yield*/, image.toFile("./Assets/temp/edited.png")];
+                case 2:
+                    // Save and send image
+                    _a.sent();
+                    return [4 /*yield*/, message.channel.send({ attachments: [new Discord.MessageAttachment("./Assets/temp/edited.png")] })];
+                case 3:
+                    _a.sent();
+                    // Clean up files
+                    FileSystem.unlinkSync("./Assets/temp/original.".concat(extention));
+                    FileSystem.unlinkSync("./Assets/temp/edited.png");
+                    return [2 /*return*/, true];
             }
-        }
-    }
-
-    async Save() {
-        await this.image.png();
-        await this.image.toFile("./Assets/temp/editedImage.png");
-    }
-
-    OneShot(operation, message, start_time) {
-        this.operation_queue.push(operation);
-        this.Run();
-        this.Save();
-
-        var fileSize = FileSystem.statSync("./Assets/temp/editedImage.png").size;
-        editLogEmbed.addField("Processing Time", `${Date.now() - start_time}ms`, true);
-        editLogEmbed.addField("Filesize", `${Math.round(fileSize * 100 / 1024 / 1024) / 100}MB`, true);
-        editLogEmbed.setDescription(this.operation_log.join("\n"));
-
-        if (fileSize > 8 * 1024 * 1024) {
-            message.channel.send(editLogEmbed
-                .addField("Result file size too large", `File was ${Math.round(fileSize * 100 / 1024 / 1024) / 100}/8MB`)
-                .setColor(Status.StatusColor("ERROR"))
-            );
-        } else {
-            //Send Image
-            message.channel.send({ embeds: [editLogEmbed], files: [ICON] });
-            message.channel.send({ files: [new Discord.MessageAttachment("./Assets/temp/editedImage.png")] });
-            console.log(`${Utils.GetTimeStamp()} [Upload] Uploaded "./Assets/temp/editedImage.png"`);
-        }
-
-        editLogEmbed.fields = [];
-    }
-
-    constructor(path) {
-        this.image = Sharp(path);
-    }
-}
-
-function Run(message, args, args_with_case, client) {
-    if (message.attachments.size > 0) { // Where any options specified along with an attached image?
-        
-        /* Download Image */
-        var fileExtension = message.attachments.first().name.split(".")[1];
-        var StartTime = Date.now();
-
-        editLogEmbed.setDescription("No operations executed");
-
-        WebClient.DownloadFile(message.attachments.first().url, `./Assets/temp/uneditedImage.${fileExtension}`, async () => {
-            var editor = new Editor(`./Assets/temp/uneditedImage.${fileExtension}`);
-            switch (args[0]) {
-                case "png":
-                    editor.OneShot(new Operation(OPERATIONS.TO_PNG, {}), message, StartTime);
-                    return;
-
-                case "hueshift":
-                    editor.OneShot(new Operation(OPERATIONS.HUE_SHIFT, { value: parseFloat(args[1]) || 0 }), message, StartTime);
-                    return;
-            }
-
-            await editor.ResolveOperations(args);
-            await editor.Run();
-            await editor.Save();
-
-            var fileSize = FileSystem.statSync("./Assets/temp/editedImage.png").size;
-            editLogEmbed.addField("Processing Time", `${Date.now() - StartTime}ms`);
-            editLogEmbed.addField("Filesize", `${Math.round(fileSize * 100 / 1024 / 1024) / 100}MB`);
-            editLogEmbed.setDescription(editor.operation_log.join("\n"));
-
-            if (fileSize > 8 * 1024 * 1024) {
-                message.channel.send(editLogEmbed
-                    .addField("Result file size too large", `File was ${Math.round(fileSize * 100 / 1024 / 1024) / 100}/8MB`)
-                    .setColor(Status.StatusColor("ERROR"))
-                );
-            } else {
-                //Send Image
-                message.channel.send({ embeds: [editLogEmbed], files: [ICON] });
-                message.channel.send({ files: [new Discord.MessageAttachment("./Assets/temp/editedImage.png")] });
-                console.log(`${Utils.GetTimeStamp()} [Upload] Uploaded "./Assets/temp/editedImage.png"`);
-            }
-
-            editLogEmbed.fields = [];
         });
-    } else {
-        message.channel.send({
-            embeds: [
-                new Discord.MessageEmbed()
-                    .setTitle("Help > Image Tools > Edit")
-                    .setColor(Status.StatusColor("ERROR"))
-                    .addFields(
-                        { name: "Bracket Definitions", value: "{Required} [optional]" },
-                        { name: ".it [flag] [flag] [flag]...", value: "Apply slight tweaks to a provided image" },
-                        { name: "Generic Flags", value: "`-resize`" },
-                        { name: "Color Manipulation Flags", value: "`-brightness` `-colorspace` `-grayscale` `-hueshift` `-saturation` `-tint`" },
-                        { name: "Image Operation Flags", value: "`-blur` `-flip` `-flop` `-rotate` `-sharpen` `-threshhold`" },
-                        { name: "Available COLOR_SPACES", value: "`srgb` `rgb` `cymk` `lab` `bw`" }
-                    )
-                    .setThumbnail("attachment://PaintPalette.png")
-                    .setFooter(Status.InvalidCommandMessage())
-            ]
-        });
-    }
-
-    return true;
+    });
 }
-
-/*************** Main ***************/
-module.exports = {
-    NSFW: false,
-    name: "edit",
-    category: global.COMMAND_CATEGORIES.UTILITY.NAME,
-    aliases: [
-        ["it"],
-        ["imagetools"],
-        ["png"],
-        ["hueshift"]
-    ],
-    Run
-}
+exports.Run = Run;
+exports.NSFW = false;
+exports.title = "ImageTools";
+exports.category = global.COMMAND_CATEGORIES.UTILITY.NAME;
+exports.aliases = [
+    ["editx"]
+];
+//# sourceMappingURL=ImageTools.js.map

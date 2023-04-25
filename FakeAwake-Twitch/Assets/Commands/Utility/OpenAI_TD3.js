@@ -6,12 +6,14 @@ const Utils = require("../../include/Utils.js");
 
 const OPENAI_CONFIG = new OpenAi.Configuration({ apiKey: process.env.OPENAI_API_KEY });
 const OPENAI_API = new OpenAi.OpenAIApi(OPENAI_CONFIG);
+let ratelimier = null;
+let isratelimited = false;
 
-var text_settings = {
+let text_settings = {
     model: "text-davinci-003",
     prompt: "",
     temperature: 0.7,
-    max_tokens: 256,
+    max_tokens: 100,
     top_p: 1.0,
     frequency_penalty: 0.5,
     presence_penalty: 0.0
@@ -21,10 +23,18 @@ async function Run(channel, tags, msg, self, client, args, args_with_case) {
     args_with_case.shift();
     text_settings.prompt = args_with_case.join(" ");
 
+    if (isratelimited) {
+        console.log(`${Utils.GetTimeStamp()} [OpenAI] Rate limited`);
+        return;
+    }
+
     try {
         var response = await OPENAI_API.createCompletion(text_settings);
         client.say(channel, response.data.choices[0].text)
         if (response.data.choices[0].text != "") client.say(channel, response.data.choices[0].text); else client.say(channel, "idk");
+
+        isratelimited = true;
+        ratelimier = setInterval(() => isratelimited = false, 30000);
     } catch (e) {
         client.say(channel, `Status: ${e.response.status}, ${e.response.statusText}`)
     }

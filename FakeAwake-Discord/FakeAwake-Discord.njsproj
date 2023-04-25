@@ -39,9 +39,6 @@
     </Content>
     <Content Include="Assets\Commands\Christmas\SantaHat - Copy.js" />
     <Content Include="Assets\Commands\Fun\BodyPillow.js" />
-    <Content Include="Assets\Commands\Fun\VeryHappyKittyD.js">
-      <SubType>Code</SubType>
-    </Content>
     <Content Include="Assets\Commands\Fun\Weewoo.js" />
     <Content Include="Assets\Commands\Games\WaifuMemory.js" />
     <Content Include="Assets\Commands\Utility\YTtoMP3.js" />
@@ -50,9 +47,6 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="Assets\Commands\Utility\Script.js">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="Assets\include\Banking.js">
       <SubType>Code</SubType>
     </Content>
     <Content Include="Assets\Commands\Beat Saber\MapGeneratorSimple.js" />
@@ -66,7 +60,6 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="Assets\Commands\Fun\HornyLogRework.js" />
-    <Content Include="Assets\Commands\Fun\Tuck.js" />
     <Content Include="Assets\Commands\Guild Settings\SetBotChannels.js">
       <SubType>Code</SubType>
     </Content>
@@ -74,9 +67,6 @@
     <Content Include="Assets\Commands\Utility\SetFakeAwakeStatus.js" />
     <Content Include="Assets\Commands\Utility\TwitchDropTime.js" />
     <Content Include="Assets\Commands\Utility\Broadcast.js">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="Assets\Data\DuoReminderLog.json">
       <SubType>Code</SubType>
     </Content>
     <Content Include="Assets\Data\FakeAwakeStatus.json">
@@ -98,15 +88,11 @@
     <Content Include="Assets\Commands\Fun\Baka.js">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="Assets\Commands\Fun\CBT.js" />
     <Content Include="Assets\Commands\Fun\420.js" />
     <Content Include="Assets\Commands\Fun\69.js">
       <SubType>Code</SubType>
     </Content>
     <Content Include="Assets\Commands\Fun\8Ball.js">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="Assets\Commands\Fun\Awake.js">
       <SubType>Code</SubType>
     </Content>
     <Content Include="Assets\Commands\Fun\Bonk.js">
@@ -115,16 +101,10 @@
     <Content Include="Assets\Commands\Fun\Bubblewrap.js">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="Assets\Commands\Fun\ChokeMePlz.js">
-      <SubType>Code</SubType>
-    </Content>
     <Content Include="Assets\Commands\Christmas\SnowBall.js">
       <SubType>Code</SubType>
     </Content>
     <Content Include="Assets\Commands\Fun\CoinFlip.js">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="Assets\Commands\Fun\DoomFish.js">
       <SubType>Code</SubType>
     </Content>
     <Content Include="Assets\Commands\Fun\Hug.js">
@@ -182,7 +162,7 @@
     <Content Include="Assets\Commands\help.js">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="Assets\Commands\Utility\ImageTools.js">
+    <Content Include="Assets\Commands\Utility\ImageTools - Js.js">
       <SubType>Code</SubType>
     </Content>
     <Content Include="Assets\Commands\Utility\About.js">
@@ -295,7 +275,7 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="Assets\include\Utils.js" />
-    <Content Include="Assets\include\WebClient.js">
+    <Content Include="Assets\include\WebClient - Js.js">
       <SubType>Code</SubType>
     </Content>
     <Content Include="Assets\Images\awakeGasm.png" />
@@ -356,10 +336,16 @@
     <TypeScriptCompile Include="Assets\Commands\Utility\AudioPlayer.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
+    <TypeScriptCompile Include="Assets\Commands\Utility\ImageTools.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
     <TypeScriptCompile Include="Assets\Commands\Utility\OpenAI.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
     <TypeScriptCompile Include="Assets\Commands\Utility\OpenAI_Old.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="Assets\include\WebClient.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
   </ItemGroup>

@@ -3,7 +3,7 @@ import * as DiscordVoice from "@discordjs/voice";
 import * as OpenAi from "openai";
 import * as FileSystem from "fs";
 import * as GoogleTts from "google-tts-api";
-import * as WebClient from "../../include/webclient.js";
+import * as WebClient from "../../include/WebClient";
 import * as Utils from "../../include/Utils.js";
 
 const OPENAI_CONFIG = new OpenAi.Configuration({ apiKey: process.env.OPENAI_API_KEY });
@@ -103,11 +103,11 @@ export async function Run(message: Discord.Message, args: string[], argswithcase
             try {
                 let response = await OPENAI_API.createImage(settings.image as OpenAi.CreateImageRequest);
 
-                WebClient.DownloadFile(response.data.data[0].url, "./Assets/temp/openai_result.png", async () => {
-                    m.edit("<a:Loading:965027668280111255> uploading...")
-                    await message.channel.send({ files: [new Discord.MessageAttachment("Assets/temp/openai_result.png")] });
-                    m.delete();
-                });
+                WebClient.DownloadFileAsync(response.data.data[0].url, "./Assets/temp/openai_result.png");
+                m.edit("<a:Loading:965027668280111255> uploading...");
+                await message.channel.send({ files: [new Discord.MessageAttachment("Assets/temp/openai_result.png")] });
+                await FileSystem.unlinkSync("./Assets/temp/openai_result.png");
+                m.delete();
             } catch (e) {
                 m.edit(`Status: ${e.message}`);
             }

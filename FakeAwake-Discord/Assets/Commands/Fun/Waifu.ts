@@ -152,6 +152,10 @@ class Instance {
         this.interactioncollector.on("collect", this.InteractionHandler.bind(this));
     }
 
+    Deinitialise() {
+        this.message.edit({ embeds: [this.embed], components: [] });
+    }
+
     async InteractionHandler(interaction) {
         if ((interaction as Discord.SelectMenuInteraction).customId == "endpoint") this.endpoint = (interaction as Discord.SelectMenuInteraction).values[0];
         let response = await fetch(`https://nekos.life/api/v2/img/${this.endpoint}`);
@@ -165,6 +169,7 @@ class Instance {
 }
 
 export async function Run(message: Discord.Message, args: string[], argswithcase: string[], client: Discord.Client): Promise<boolean> {
+    if (instances.has(message.channel.id)) instances.get(message.channel.id).Deinitialise();
     instances.set(message.channel.id, new Instance(message.channel as Discord.TextChannel));
     return true;
 }

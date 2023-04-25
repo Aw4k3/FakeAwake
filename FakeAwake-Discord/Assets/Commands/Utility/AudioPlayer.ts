@@ -11,7 +11,7 @@ import * as Request from "request";
 import * as Status from "../../include/Status.js";
 import * as Utils from "../../include/Utils.js";
 
-const SECRETS = JSON.parse(FileSystem.readFileSync("./secrets/FakeAwake Secrets.json", "utf8"));
+// const SECRETS = JSON.parse(FileSystem.readFileSync("./secrets/FakeAwake Secrets.json", "utf8"));
 // const SPOTIFY_API: SpotifyWebApi = new SpotifyWebApi();
 
 var instances: Map<string, Instance> = new Map();

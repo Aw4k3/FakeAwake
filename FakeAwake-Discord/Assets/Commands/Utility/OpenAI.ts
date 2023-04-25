@@ -3,7 +3,7 @@ import * as DiscordVoice from "@discordjs/voice";
 import * as OpenAi from "openai";
 import * as FileSystem from "fs";
 import * as GoogleTts from "google-tts-api";
-import * as WebClient from "../../include/webclient.js";
+import * as WebClient from "../../include/WebClient - Js.js";
 import * as Utils from "../../include/Utils.js";
 
 const OPENAI_CONFIG = new OpenAi.Configuration({ apiKey: process.env.OPENAI_API_KEY });

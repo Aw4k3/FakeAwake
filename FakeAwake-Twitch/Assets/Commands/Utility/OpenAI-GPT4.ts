@@ -13,10 +13,10 @@ let settings = {
         model: "gpt-4",
         messages: [],
         temperature: 0.7,
-        max_tokens: 200,
+        max_tokens: 100,
         top_p: 1.0,
         frequency_penalty: 0.5,
-        presence_penalty: 0.0
+        presence_penalty: 0.5
     }
 }
 
@@ -31,6 +31,8 @@ class Conversation {
     static IDENTITY: OpenAi.ChatCompletionRequestMessage = { role: "system", content: "You are a sentient human being with personal preferences and emotions." };
     private messages: Message[] = [];
     private timers: NodeJS.Timeout[] = [];
+    private ratelimiter: NodeJS.Timeout = null;
+    private isratelimited: boolean = false;
 
     AddMessage(message: Message): void {
         this.messages.push(message);
@@ -40,12 +42,19 @@ class Conversation {
             this.messages.splice(0, 1);
             clearTimeout(this.timers[0]);
         }
+        
+        this.isratelimited = true;
+        this.ratelimiter = setTimeout(() => this.isratelimited = false, 30000);
     }
 
     GetMessages(): OpenAi.ChatCompletionRequestMessage[] {
         let messages: OpenAi.ChatCompletionRequestMessage[] = [Conversation.IDENTITY];
         for (let m of this.messages) messages.push({ role: m.role, content: m.message });
         return messages;
+    }
+
+    IsRateLimited(): boolean {
+        return this.isratelimited;
     }
 }
 
@@ -54,8 +63,16 @@ export async function Run(channel, tags, msg, self, client: Twitch.Client, args:
     let response;
 
     try {
-        // Handle conversations
+        // Handle Instancing
         if (!conversations.has(channel)) conversations.set(channel, new Conversation());
+
+        // Check Ratelimt
+        if (conversations.get(channel).IsRateLimited()) {
+            console.log(`${Utils.GetTimeStamp()} [OpenAI] Rate limited`);
+            return;
+        }
+
+        // Handle conversations
         conversations.get(channel).AddMessage({ role: "user", message: argswithcase.join(" ") });
         settings.text.messages = conversations.get(channel).GetMessages();
 
