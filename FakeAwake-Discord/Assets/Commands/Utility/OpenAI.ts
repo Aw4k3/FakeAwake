@@ -55,6 +55,10 @@ class Conversation {
         for (let m of this.messages) messages.push({ role: m.role, content: m.message });
         return messages;
     }
+
+    StreamResponse(channel: Discord.Channel): void {
+
+    }
 }
 
 class VoiceAssisstant {
