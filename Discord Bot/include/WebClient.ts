@@ -1,17 +1,18 @@
+import * as Axios from "axios";
 import * as FileSystem from "fs";
-import * as Https from "https";
-import * as Utility from "Utility.js";
+import * as StreamPromises from "stream/promises";
+import * as Utility from "./Utility";
+import * as Path from "path";
 
-export async function DownloadFileAsync(url: string, file: string): Promise<void> {
+export async function DownloadFile(url: string, file: string): Promise<void> {
     let wstream = FileSystem.createWriteStream(file);
-    Https.get(url, response => {
-        console.log(`\x1b[34m${Utility.GenerateTimestamp()} [Download] Status Code: ${response.statusCode}`);
-        console.log(`\x1b[34m${Utility.GenerateTimestamp()} [Download] Headers: ${response.headers}`);
-        console.log(`\x1b[34m${Utility.GenerateTimestamp()} [Download] Downloaded ${file}`);
-        response.pipe(wstream);
-        wstream.on("finish", () => {
-            wstream.close();
-            console.log(`\x1b[34m${Utility.GenerateTimestamp()} [Download] Downloaded and Saved ${file}\x1b[0m`);
-        });
-    });
+
+    if (!FileSystem.existsSync(Path.dirname(file))) FileSystem.mkdirSync(Path.dirname(file), { recursive: true });
+    let response: Axios.AxiosResponse = await Axios.default.get(url, { responseType: "stream" });
+    console.log(`\x1b[36m${Utility.GenerateTimestamp()} [Download] Status Code: ${response.status}\x1b[0m`);
+    console.log(`\x1b[36m${Utility.GenerateTimestamp()} [Download] Headers: ${JSON.stringify(response.headers, null, 2)}\x1b[0m`);
+    console.log(`\x1b[36m${Utility.GenerateTimestamp()} [Download] Downloading ${file}\x1b[0m`);
+    await StreamPromises.pipeline(response.data, wstream);
+    wstream.close();
+    console.log(`\x1b[36m${Utility.GenerateTimestamp()} [Download] Downloaded ${file}\x1b[0m`);
 }

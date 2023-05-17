@@ -9,7 +9,8 @@
     "target": "esnext"
   },
   "include": [
-    "src"
+    "src",
+    "include"
   ],
   "exclude": [
     "node_modules",

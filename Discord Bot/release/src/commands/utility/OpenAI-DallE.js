@@ -24,16 +24,46 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.command = void 0;
+const Discord = __importStar(require("discord.js"));
+const OpenAi = __importStar(require("openai"));
+const FileSystem = __importStar(require("fs"));
 const CommandHandler = __importStar(require("../../CommandHandler.js"));
+const Utility = __importStar(require("../../../include/Utility.js"));
+const WebClient = __importStar(require("../../../include/WebClient.js"));
+const OPENAI_CONFIG = new OpenAi.Configuration({ apiKey: process.env.OPENAI_API_KEY });
+const OPENAI_API = new OpenAi.OpenAIApi(OPENAI_CONFIG);
+let settings = {
+    prompt: "",
+    n: 1,
+    size: "1024x1024"
+};
 exports.command = {
     name: "OpenAI-DallE",
     category: "Utility",
     nsfw: false,
     aliases: [
+        ["fakeawake2i"],
+        ["fa2i"],
         ["fakeawakei"],
         ["fai"]
     ],
     Run: async function (message, args, argswithcase, client) {
+        argswithcase.shift();
+        settings.prompt = argswithcase.join(" ");
+        var m = await message.channel.send("<a:Loading:965027668280111255> generating...");
+        try {
+            let response = await OPENAI_API.createImage(settings);
+            await WebClient.DownloadFile(response.data.data[0].url, "./temp/openai_result.png");
+            m.edit("<a:Loading:965027668280111255> uploading...");
+            await message.channel.send({ files: [new Discord.AttachmentBuilder("temp/openai_result.png")] });
+            await FileSystem.unlinkSync("./temp/openai_result.png");
+            m.delete();
+        }
+        catch (e) {
+            m.edit(`Internal Error`);
+            console.log(`${Utility.GenerateTimestamp()} ${e}`);
+            return CommandHandler.ExitCode.InternalError;
+        }
         return CommandHandler.ExitCode.Success;
     }
 };

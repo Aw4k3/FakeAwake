@@ -67,13 +67,13 @@ async function Resolve(message, args, argswithcase, client) {
             if (alias.every((arg, i) => arg == args[i]))
                 switch (await command.Run(message, args, argswithcase, client)) {
                     case ExitCode.Success:
-                        console.log(`\x1b[0m${Utility.GenerateTimestamp()} [Command Handler] ${message.author.tag} successfully executed "${command.name}"`);
+                        console.log(`\x1b[0m${Utility.GenerateTimestamp()} [Command Handler] ${message.author.tag} successfully executed "${command.name}"\x1b[0m`);
                         return;
                     case ExitCode.InternalError:
-                        console.log(`\x1b[31m${Utility.GenerateTimestamp()} [Command Handler] Internal error in "${command.name}"`);
+                        console.log(`\x1b[31m${Utility.GenerateTimestamp()} [Command Handler] Internal error in "${command.name}"\x1b[0m`);
                         return;
                     case ExitCode.UsageError:
-                        console.log(`\x1b[33m${Utility.GenerateTimestamp()} [Command Handler] ${message.author.tag} tried to executed "${command.name}"`);
+                        console.log(`\x1b[33m${Utility.GenerateTimestamp()} [Command Handler] ${message.author.tag} tried to executed "${command.name}"\x1b[0m`);
                         return;
                 }
         }

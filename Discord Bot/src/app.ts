@@ -1,6 +1,8 @@
+import * as FileSystem from "fs";
 import * as Discord from "discord.js";
 import * as Utility from "../include/Utility.js";
 import * as CommandHandler from "./CommandHandler.js";
+import * as BotSettings from "../include/BotSettings.js";
 
 const START_TIME = Date.now();
 const CLIENT = new Discord.Client({
@@ -12,7 +14,7 @@ const CLIENT = new Discord.Client({
     ]
 });
 
-const PREFIX = "*";
+const PREFIX = BotSettings.PREFIX;
 CommandHandler.LoadCommands();
 
 CLIENT.once(Discord.Events.ClientReady, OnReady);

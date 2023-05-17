@@ -30,18 +30,60 @@
   </PropertyGroup>
   <ItemGroup>
     <None Include="src\app.ts" />
+    <Content Include="data\GuildSettings.json">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="package.json" />
     <Content Include="README.md" />
+    <Content Include="release\data\GuildSettings.json" />
+    <Content Include="release\include\GuildSettings.js" />
+    <Content Include="release\include\Random.js" />
+    <Content Include="release\include\Utility.js" />
+    <Content Include="release\include\WebClient.js" />
+    <Content Include="release\run.bat" />
+    <Content Include="release\src\app.js" />
+    <Content Include="release\src\CommandHandler.js" />
+    <Content Include="release\src\commands\fun\8Ball.js" />
+    <Content Include="release\src\commands\fun\HowX.js" />
+    <Content Include="release\src\commands\fun\Roll.js" />
+    <Content Include="release\src\commands\fun\Waifu.js" />
+    <Content Include="release\src\commands\settings\guild\SetGuildPrefix.js" />
+    <Content Include="release\src\commands\utility\OpenAI-DallE.js" />
+    <Content Include="release\src\commands\utility\OpenAI-GPT4.js" />
+    <Content Include="release\src\commands\utility\OpenAI-TD3.js" />
+    <Content Include="release\src\commands\utility\Ping.js" />
     <Content Include="tsconfig.json" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="data\" />
+    <Folder Include="release\" />
+    <Folder Include="release\data\" />
+    <Folder Include="release\include\" />
+    <Folder Include="release\src\" />
+    <Folder Include="release\src\commands\" />
+    <Folder Include="release\src\commands\fun\" />
+    <Folder Include="release\src\commands\settings\" />
+    <Folder Include="release\src\commands\settings\guild\" />
+    <Folder Include="release\src\commands\utility\" />
+    <Folder Include="release\temp\" />
     <Folder Include="src\" />
     <Folder Include="include\" />
     <Folder Include="src\commands\" />
     <Folder Include="src\commands\fun\" />
+    <Folder Include="src\commands\settings\" />
+    <Folder Include="src\commands\settings\guild\" />
     <Folder Include="src\commands\utility\" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="include\AudioStreams.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="include\BotSettings.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="include\GuildSettings.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
     <TypeScriptCompile Include="include\Random.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
@@ -52,7 +94,22 @@
     <TypeScriptCompile Include="include\Utility.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
+    <TypeScriptCompile Include="src\commands\fun\8Ball.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
     <TypeScriptCompile Include="src\commands\fun\HowX.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="src\commands\fun\Roll.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="src\commands\fun\Waifu.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="src\commands\settings\guild\SetGuildPrefix.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="src\commands\utility\MusicPlayer.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
     <TypeScriptCompile Include="src\commands\utility\OpenAI-DallE.ts">

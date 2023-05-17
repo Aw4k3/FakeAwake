@@ -26,6 +26,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Discord = __importStar(require("discord.js"));
 const Utility = __importStar(require("../include/Utility.js"));
 const CommandHandler = __importStar(require("./CommandHandler.js"));
+const BotSettings = __importStar(require("../include/BotSettings.js"));
 const START_TIME = Date.now();
 const CLIENT = new Discord.Client({
     intents: [
@@ -35,7 +36,7 @@ const CLIENT = new Discord.Client({
         Discord.GatewayIntentBits.MessageContent
     ]
 });
-const PREFIX = "*";
+const PREFIX = BotSettings.PREFIX;
 CommandHandler.LoadCommands();
 CLIENT.once(Discord.Events.ClientReady, OnReady);
 CLIENT.on(Discord.Events.MessageCreate, OnMessageCreate);

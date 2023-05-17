@@ -46,9 +46,9 @@ exports.command = {
         subject = subject.replace(/<@[0-9]+>/g, "");
         if (message.mentions.users.size > 0)
             for (let user of message.mentions.users.values())
-                entries.push(`${user}: ${Random.RandomInteger(0, max)}`);
+                entries.push(`${user}: ${Random.RandomInteger(0, max)}%`);
         else
-            entries.push(`${message.author}: ${Random.RandomInteger(0, max)}`);
+            entries.push(`${message.author}: ${Random.RandomInteger(0, max)}%`);
         message.channel.send({
             embeds: [
                 new Discord.EmbedBuilder()
