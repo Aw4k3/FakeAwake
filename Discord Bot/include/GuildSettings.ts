@@ -12,7 +12,7 @@ const DEFAULT_SETTINGS: IGuildSettings = {
 };
 
 const FILEPATH = "./data/GuildSettings.json";
-let data: Map<string, IGuildSettings> = new Map<string, IGuildSettings>(JSON.parse(FileSystem.readFileSync(FILEPATH, "utf-8")));
+let data: Map<string, IGuildSettings> = new Map<string, IGuildSettings>(Object.entries(JSON.parse(FileSystem.readFileSync(FILEPATH, "utf-8"))));
 
 export function Reload(): void {
     data = JSON.parse(FileSystem.readFileSync(FILEPATH, "utf-8"));

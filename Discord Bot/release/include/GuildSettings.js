@@ -31,7 +31,7 @@ const DEFAULT_SETTINGS = {
     nsfw: true
 };
 const FILEPATH = "./data/GuildSettings.json";
-let data = new Map(JSON.parse(FileSystem.readFileSync(FILEPATH, "utf-8")));
+let data = new Map(Object.entries(JSON.parse(FileSystem.readFileSync(FILEPATH, "utf-8"))));
 function Reload() {
     data = JSON.parse(FileSystem.readFileSync(FILEPATH, "utf-8"));
 }
