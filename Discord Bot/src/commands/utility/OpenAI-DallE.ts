@@ -1,3 +1,4 @@
+import * as Axios from "axios";
 import * as Discord from "discord.js";
 import * as OpenAi from "openai";
 import * as FileSystem from "fs";
@@ -19,27 +20,60 @@ export const command: CommandHandler.ICommand = {
     category: "Utility",
     nsfw: false,
     aliases: [
-        ["fakeawake2i"],
-        ["fa2i"],
         ["fakeawakei"],
-        ["fai"]
+        ["fai"],
+        ["fakeawakeie"],
+        ["faie"]
     ],
     Run: async function (message: Discord.Message, args: string[], argswithcase: string[], client: Discord.Client): Promise<CommandHandler.ExitCode> {
         argswithcase.shift();
         settings.prompt = argswithcase.join(" ");
         var m: Discord.Message = await message.channel.send("<a:Loading:965027668280111255> generating...");
 
-        try {
-            let response = await OPENAI_API.createImage(settings as OpenAi.CreateImageRequest);
-            await WebClient.DownloadFile(response.data.data[0].url, "./temp/openai_result.png");
-            m.edit("<a:Loading:965027668280111255> uploading...");
-            await message.channel.send({ files: [new Discord.AttachmentBuilder("temp/openai_result.png")] });
-            await FileSystem.unlinkSync("./temp/openai_result.png");
-            m.delete();
-        } catch (e) {
-            m.edit(`Internal Error`);
-            console.log(`${Utility.GenerateTimestamp()} ${e}`);
-            return CommandHandler.ExitCode.InternalError;
+        switch (args[0].charAt(args[0].length - 1)) {
+            case 'e':
+                if (message.attachments.size < 1) {
+                    message.channel.send("Image attachment with transparency required (.png)");
+                    return CommandHandler.ExitCode.UsageError;
+                }
+
+                if (!message.attachments.first().url.endsWith(".png")) {
+                    message.channel.send("Image attachment with transparency required (.png)");
+                    return CommandHandler.ExitCode.UsageError;
+                }
+
+                try {
+                    await WebClient.DownloadFile(message.attachments.first().url, "./temp/openai_input.png");
+                    let response = await OPENAI_API.createImageEdit(
+                        FileSystem.createReadStream("./temp/openai_input.png") as unknown as File,
+                        settings.prompt
+                    );
+                    await WebClient.DownloadFile(response.data.data[0].url, "./temp/openai_result.png");
+                    m.edit("<a:Loading:965027668280111255> uploading...");
+                    await message.channel.send({ files: [new Discord.AttachmentBuilder("temp/openai_result.png")] });
+                    await FileSystem.unlinkSync("./temp/openai_input.png");
+                    await FileSystem.unlinkSync("./temp/openai_result.png");
+                    m.delete();
+                } catch (e) {
+                    m.edit(`Internal Error`);
+                    console.log(`${Utility.GenerateTimestamp()} ${e}`);
+                    return CommandHandler.ExitCode.InternalError;
+                }
+                break;
+
+            case "i":
+                try {
+                    let response = await OPENAI_API.createImage(settings as OpenAi.CreateImageRequest);
+                    await WebClient.DownloadFile(response.data.data[0].url, "./temp/openai_result.png");
+                    m.edit("<a:Loading:965027668280111255> uploading...");
+                    await message.channel.send({ files: [new Discord.AttachmentBuilder("temp/openai_result.png")] });
+                    await FileSystem.unlinkSync("./temp/openai_result.png");
+                    m.delete();
+                } catch (e) {
+                    m.edit(`Internal Error`);
+                    console.log(`${Utility.GenerateTimestamp()} ${e}`);
+                    return CommandHandler.ExitCode.InternalError;
+                }
         }
 
         return CommandHandler.ExitCode.Success;
