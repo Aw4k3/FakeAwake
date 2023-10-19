@@ -1,5 +1,5 @@
-import * as FileSystem from "fs";
 import * as Discord from "discord.js";
+import * as MessageChains from "./system/MessageChains.js";
 import * as Utility from "../include/Utility.js";
 import * as CommandHandler from "./CommandHandler.js";
 import * as BotSettings from "../include/BotSettings.js";
@@ -26,7 +26,10 @@ function OnReady(): void {
 }
 
 function OnMessageCreate(message: Discord.Message): void {
-    if (message.author.bot) return;
+    if (message.author.bot) return; // Ignore messages sent by bots
+
+    MessageChains.UpdateChain(message.channel, message.content);
+
     if (!message.content.startsWith(PREFIX)) return;
 
     let args = message.content.substr(PREFIX.length).split(/\s+/);

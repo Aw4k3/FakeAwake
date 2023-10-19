@@ -1,3 +1,6 @@
 C:\Users\Potato PC\source\repos\FakeAwake\Discord Bot\obj\Debug\Discord Bot.njsproj.AssemblyReference.cache
 C:\Users\Potato PC\source\repos\FakeAwake\Discord Bot\obj\Debug\Discord Bot.njsproj.CoreCompileInputs.cache
 C:\Users\Potato PC\source\repos\FakeAwake\Discord Bot\bin\Microsoft.NodejsTools.WebRole.dll
+C:\Users\Piraveen\Documents\GitHub\FakeAwake\Discord Bot\obj\Debug\Discord Bot.njsproj.AssemblyReference.cache
+C:\Users\Piraveen\Documents\GitHub\FakeAwake\Discord Bot\obj\Debug\Discord Bot.njsproj.CoreCompileInputs.cache
+C:\Users\Piraveen\Documents\GitHub\FakeAwake\Discord Bot\bin\Microsoft.NodejsTools.WebRole.dll

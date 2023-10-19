@@ -70,6 +70,7 @@
     <Folder Include="include\" />
     <Folder Include="src\commands\" />
     <Folder Include="src\commands\fun\" />
+    <Folder Include="src\system\" />
     <Folder Include="src\commands\settings\" />
     <Folder Include="src\commands\settings\guild\" />
     <Folder Include="src\commands\utility\" />
@@ -109,6 +110,7 @@
     <TypeScriptCompile Include="src\commands\settings\guild\SetGuildPrefix.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
+    <TypeScriptCompile Include="src\system\MessageChains.ts" />
     <TypeScriptCompile Include="src\commands\utility\MusicPlayer.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
