@@ -23,7 +23,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Resolve = exports.LoadCommands = exports.ExitCode = void 0;
+exports.Resolve = exports.GetCommands = exports.LoadCommands = exports.ExitCode = void 0;
 const FileSystem = __importStar(require("fs"));
 const Utility = __importStar(require("../include/Utility.js"));
 let commands = new Map();
@@ -61,6 +61,10 @@ function LoadCommands() {
     console.log(`${Utility.GenerateTimestamp()} [Command Handler] Loaded ${commands.size} commands`);
 }
 exports.LoadCommands = LoadCommands;
+function GetCommands() {
+    return commands;
+}
+exports.GetCommands = GetCommands;
 async function Resolve(message, args, argswithcase, client) {
     for (let command of commands.values()) {
         for (let alias of command.aliases) {

@@ -23,21 +23,92 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CreateStreamFromMember = exports.CreateStream = void 0;
+exports.ShowControlPanel = exports.CreateStreamFromMember = exports.CreateStream = void 0;
+const Discord = __importStar(require("discord.js"));
 const DiscordVoice = __importStar(require("@discordjs/voice"));
 let streams = new Map();
+var TRACK_TYPE;
+(function (TRACK_TYPE) {
+    TRACK_TYPE[TRACK_TYPE["UNSET"] = -1] = "UNSET";
+    TRACK_TYPE[TRACK_TYPE["YOUTUBE"] = 0] = "YOUTUBE";
+    TRACK_TYPE[TRACK_TYPE["SPOTIFY"] = 1] = "SPOTIFY";
+})(TRACK_TYPE || (TRACK_TYPE = {}));
+;
+var PLAYER_STATE;
+(function (PLAYER_STATE) {
+    PLAYER_STATE[PLAYER_STATE["IDLE"] = 0] = "IDLE";
+    PLAYER_STATE[PLAYER_STATE["PLAYING"] = 1] = "PLAYING";
+    PLAYER_STATE[PLAYER_STATE["PAUSED"] = 2] = "PAUSED";
+    PLAYER_STATE[PLAYER_STATE["BUFFERING"] = 3] = "BUFFERING";
+})(PLAYER_STATE || (PLAYER_STATE = {}));
+;
+const STATE_COLOURS = {
+    IDLE: "#ebd234",
+    PLAYING: "#3deb34",
+    PAUSED: "#000000",
+    BUFFERING: "eb3434"
+};
+const PLAY_BUTTON = new Discord.ButtonBuilder()
+    .setCustomId("play")
+    .setLabel("Play")
+    .setStyle(Discord.ButtonStyle.Danger);
+const PAUSE_BUTTON = new Discord.ButtonBuilder()
+    .setCustomId("pause")
+    .setLabel("Pause")
+    .setStyle(Discord.ButtonStyle.Primary);
+const SKIP_BUTTON = new Discord.ButtonBuilder()
+    .setCustomId("skip")
+    .setLabel("Skip")
+    .setStyle(Discord.ButtonStyle.Primary);
+const LOOP_ENABLED_BUTTON = new Discord.ButtonBuilder()
+    .setCustomId("disable-loop")
+    .setLabel("Loop")
+    .setStyle(Discord.ButtonStyle.Success);
+const LOOP_DISABLED_BUTTON = new Discord.ButtonBuilder()
+    .setCustomId("enable-loop")
+    .setLabel("Loop")
+    .setStyle(Discord.ButtonStyle.Secondary);
+const STAY_ENABLED_BUTTON = new Discord.ButtonBuilder()
+    .setCustomId("stay-on-finish")
+    .setLabel("Stay on Finish")
+    .setStyle(Discord.ButtonStyle.Success);
+const STAY_DISABLED_BUTTON = new Discord.ButtonBuilder()
+    .setCustomId("stay-on-finish")
+    .setLabel("Stay on Finish")
+    .setStyle(Discord.ButtonStyle.Secondary);
+const CLEAR_QUEUE_BUTTON = new Discord.ButtonBuilder()
+    .setCustomId("clear")
+    .setLabel("Clear Queue")
+    .setStyle(Discord.ButtonStyle.Danger)
+    .setDisabled(true);
+const DISCONNECT_BUTTON = new Discord.ButtonBuilder()
+    .setCustomId("disconnect")
+    .setLabel("Disconnect")
+    .setStyle(Discord.ButtonStyle.Danger);
 class Stream {
     player = DiscordVoice.createAudioPlayer();
     connection = null;
-    voicechannel = null;
-    textchannel;
+    voiceChannel = null;
+    textChannel;
+    controlPanel = new Discord.EmbedBuilder()
+        .setTitle("Control Panel")
+        .setColor(STATE_COLOURS.IDLE);
     constructor(vc, tc) {
-        this.voicechannel = vc;
-        this.textchannel = tc;
+        this.voiceChannel = vc;
+        this.textChannel = tc;
+    }
+    ShowControlPanel() {
+        this.textChannel.send({ embeds: [this.controlPanel] });
     }
     Play(resource) {
         this.player.play(resource);
     }
+}
+class Track {
+    type = TRACK_TYPE.UNSET;
+    source = "";
+    duration = -1;
+    addedBy;
 }
 function CreateStream(vc, tc) {
     if (!streams.has(vc.id))
@@ -52,3 +123,6 @@ async function CreateStreamFromMember(member, tc) {
         streams.set(vc.id, new Stream(vc, tc));
 }
 exports.CreateStreamFromMember = CreateStreamFromMember;
+function ShowControlPanel() {
+}
+exports.ShowControlPanel = ShowControlPanel;

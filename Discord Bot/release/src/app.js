@@ -25,6 +25,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const Discord = __importStar(require("discord.js"));
 const Utility = __importStar(require("../include/Utility.js"));
+const Api = __importStar(require("../include/Api.js"));
 const CommandHandler = __importStar(require("./CommandHandler.js"));
 const BotSettings = __importStar(require("../include/BotSettings.js"));
 const START_TIME = Date.now();
@@ -33,10 +34,12 @@ const CLIENT = new Discord.Client({
         Discord.GatewayIntentBits.Guilds,
         Discord.GatewayIntentBits.GuildMessages,
         Discord.GatewayIntentBits.DirectMessages,
-        Discord.GatewayIntentBits.MessageContent
+        Discord.GatewayIntentBits.MessageContent,
+        Discord.GatewayIntentBits.GuildVoiceStates
     ]
 });
 const PREFIX = BotSettings.PREFIX;
+Api.Start();
 CommandHandler.LoadCommands();
 CLIENT.once(Discord.Events.ClientReady, OnReady);
 CLIENT.on(Discord.Events.MessageCreate, OnMessageCreate);
@@ -49,8 +52,8 @@ function OnMessageCreate(message) {
         return;
     if (!message.content.startsWith(PREFIX))
         return;
-    let args = message.content.substr(PREFIX.length).split(/\s+/);
-    let argswithcase = message.content.substr(PREFIX.length).toLowerCase().split(/\s+/);
+    let args = message.content.substr(PREFIX.length).toLowerCase().split(/\s+/);
+    let argswithcase = message.content.substr(PREFIX.length).split(/\s+/);
     CommandHandler.Resolve(message, args, argswithcase, CLIENT);
 }
 CLIENT.login(process.env.DISCORD_BOT_TOKEN);

@@ -3,6 +3,15 @@ import * as DiscordVoice from "@discordjs/voice";
 
 let streams: Map<string, Stream> = new Map<string, Stream>(); // <VoiceChannel.Id, Stream>
 
+enum TRACK_TYPE { UNSET = -1, YOUTUBE, SPOTIFY };
+enum PLAYER_STATE { IDLE, PLAYING, PAUSED, BUFFERING };
+const STATE_COLOURS = {
+    IDLE: "#ebd234" as Discord.ColorResolvable,
+    PLAYING: "#3deb34" as Discord.ColorResolvable,
+    PAUSED: "#000000" as Discord.ColorResolvable,
+    BUFFERING: "eb3434" as Discord.ColorResolvable
+}
+
 /*********** BUTTONS ***********/
 const PLAY_BUTTON = new Discord.ButtonBuilder()
     .setCustomId("play")
@@ -53,17 +62,31 @@ const DISCONNECT_BUTTON = new Discord.ButtonBuilder()
 class Stream {
     private player: DiscordVoice.AudioPlayer = DiscordVoice.createAudioPlayer();
     private connection: DiscordVoice.VoiceConnection = null;
-    private voicechannel: Discord.VoiceBasedChannel = null;
-    private textchannel: Discord.TextBasedChannel;
+    private voiceChannel: Discord.VoiceBasedChannel = null;
+    private textChannel: Discord.TextBasedChannel;
+    private controlPanel: Discord.EmbedBuilder = new Discord.EmbedBuilder()
+        .setTitle("Control Panel")
+        .setColor(STATE_COLOURS.IDLE);
 
     public constructor(vc: Discord.VoiceBasedChannel, tc: Discord.TextBasedChannel) {
-        this.voicechannel = vc;
-        this.textchannel = tc;
+        this.voiceChannel = vc;
+        this.textChannel = tc;
+    }
+
+    public ShowControlPanel() {
+        this.textChannel.send({ embeds: [this.controlPanel] });
     }
 
     public Play(resource: DiscordVoice.AudioResource) {
         this.player.play(resource);
     }
+}
+
+class Track {
+    private type: TRACK_TYPE = TRACK_TYPE.UNSET;
+    private source: string = "";
+    private duration: number = -1;
+    private addedBy: Discord.User;
 }
 
 export function CreateStream(vc: Discord.VoiceBasedChannel, tc: Discord.TextBasedChannel) {
@@ -74,4 +97,8 @@ export async function CreateStreamFromMember(member: Discord.GuildMember, tc: Di
     let vc = await member.voice.channel;
     if (vc == null) return;
     if (!streams.has(vc.id)) streams.set(vc.id, new Stream(vc, tc));
+}
+
+export function ShowControlPanel(): void {
+
 }

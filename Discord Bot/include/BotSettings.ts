@@ -1,1 +1,1 @@
-export const PREFIX = "*";
+export const PREFIX = ".";

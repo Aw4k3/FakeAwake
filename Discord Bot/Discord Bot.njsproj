@@ -75,6 +75,7 @@
     <Folder Include="src\commands\utility\" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="include\Api.ts" />
     <TypeScriptCompile Include="include\AudioStreams.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>

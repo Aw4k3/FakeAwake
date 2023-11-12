@@ -50,6 +50,10 @@ export function LoadCommands(): void {
     console.log(`${Utility.GenerateTimestamp()} [Command Handler] Loaded ${commands.size} commands`);
 }
 
+export function GetCommands(): Map<string, ICommand> {
+    return commands;
+}
+
 export async function Resolve(message: Discord.Message, args: string[], argswithcase: string[], client: Discord.Client): Promise<void> {
     for (let command of commands.values()) {
         for (let alias of command.aliases) {
