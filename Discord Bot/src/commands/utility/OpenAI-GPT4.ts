@@ -12,6 +12,7 @@ let conversations = new Map<string, Conversation>();
 let settings = {
     text: {
         model: "gpt-4",
+        max_tokens: 164,
         messages: []
     },
     image: {

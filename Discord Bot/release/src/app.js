@@ -24,6 +24,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const Discord = __importStar(require("discord.js"));
+const MessageChains = __importStar(require("./system/MessageChains.js"));
 const Utility = __importStar(require("../include/Utility.js"));
 const Api = __importStar(require("../include/Api.js"));
 const CommandHandler = __importStar(require("./CommandHandler.js"));
@@ -50,6 +51,7 @@ function OnReady() {
 function OnMessageCreate(message) {
     if (message.author.bot)
         return;
+    MessageChains.UpdateChain(message.channel, message.content);
     if (!message.content.startsWith(PREFIX))
         return;
     let args = message.content.substr(PREFIX.length).toLowerCase().split(/\s+/);

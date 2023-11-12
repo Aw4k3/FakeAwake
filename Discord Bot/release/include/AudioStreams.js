@@ -23,6 +23,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+<<<<<<< HEAD
 exports.ShowControlPanel = exports.CreateStreamFromMember = exports.CreateStream = void 0;
 const Discord = __importStar(require("discord.js"));
 const DiscordVoice = __importStar(require("@discordjs/voice"));
@@ -48,6 +49,12 @@ const STATE_COLOURS = {
     PAUSED: "#000000",
     BUFFERING: "eb3434"
 };
+=======
+exports.CreateStreamFromMember = exports.CreateStream = void 0;
+const Discord = __importStar(require("discord.js"));
+const DiscordVoice = __importStar(require("@discordjs/voice"));
+let streams = new Map();
+>>>>>>> de6af06c0227b19ea0188b34016c35868b4c8964
 const PLAY_BUTTON = new Discord.ButtonBuilder()
     .setCustomId("play")
     .setLabel("Play")
