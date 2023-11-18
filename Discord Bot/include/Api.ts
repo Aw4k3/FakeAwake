@@ -1,6 +1,7 @@
 import * as Http from "http";
 import * as Utility from "./Utility.js";
 import * as CommandHandler from "../src/CommandHandler.js";
+import * as MessageChains from "../src/system/MessageChains.js";
 
 var api: Http.Server;
 
@@ -13,7 +14,12 @@ function ApiRequestHandler(request: Http.IncomingMessage, response: Http.ServerR
     switch (request.url) {
         case "/commands":
             response.writeHead(200, { "Content-Type": "application/json" });
-            response.write(JSON.stringify(Object.fromEntries(CommandHandler.GetCommands().entries())));
+            response.write(MapToString(CommandHandler.GetCommands()));
+            break;
+
+        case "/message_chains":
+            response.writeHead(200, { "Content-Type": "application/json" });
+            response.write(MapToString(MessageChains.GetChains()));
             break;
 
         default:
@@ -23,4 +29,8 @@ function ApiRequestHandler(request: Http.IncomingMessage, response: Http.ServerR
     }
 
     response.end();
+}
+
+function MapToString(map: Map<any, any>): string {
+    return JSON.stringify(Object.fromEntries(map.entries()));
 }

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UpdateChain = void 0;
+exports.GetChains = exports.UpdateChain = void 0;
 let chains = new Map();
 function UpdateChain(channel, message) {
     if (!chains.has(channel.id)) {
@@ -23,3 +23,7 @@ function UpdateChain(channel, message) {
     }
 }
 exports.UpdateChain = UpdateChain;
+function GetChains() {
+    return chains;
+}
+exports.GetChains = GetChains;

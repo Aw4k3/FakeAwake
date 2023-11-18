@@ -8,7 +8,6 @@ export function UpdateChain(channel: Discord.TextBasedChannel, message: string):
     } else {
         let chain: string[] = chains.get(channel.id);
         if (chain[0] == message) chain.push(message); else chain = [message];
-        console.log(chain);
 
         if (chain.length > 2) {
             channel.send(message);
@@ -17,4 +16,8 @@ export function UpdateChain(channel: Discord.TextBasedChannel, message: string):
             chains.set(channel.id, chain);
         }
     }
+}
+
+export function GetChains(): Map<string, string[]> {
+    return chains;
 }

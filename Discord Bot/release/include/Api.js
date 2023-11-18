@@ -27,6 +27,7 @@ exports.Start = void 0;
 const Http = __importStar(require("http"));
 const Utility = __importStar(require("./Utility.js"));
 const CommandHandler = __importStar(require("../src/CommandHandler.js"));
+const MessageChains = __importStar(require("../src/system/MessageChains.js"));
 var api;
 function Start() {
     api = Http.createServer(ApiRequestHandler);
@@ -37,7 +38,11 @@ function ApiRequestHandler(request, response) {
     switch (request.url) {
         case "/commands":
             response.writeHead(200, { "Content-Type": "application/json" });
-            response.write(JSON.stringify(Object.fromEntries(CommandHandler.GetCommands().entries())));
+            response.write(MapToString(CommandHandler.GetCommands()));
+            break;
+        case "/message_chains":
+            response.writeHead(200, { "Content-Type": "application/json" });
+            response.write(MapToString(MessageChains.GetChains()));
             break;
         default:
             response.writeHead(200, { "Content-Type": "text/html" });
@@ -45,4 +50,7 @@ function ApiRequestHandler(request, response) {
             break;
     }
     response.end();
+}
+function MapToString(map) {
+    return JSON.stringify(Object.fromEntries(map.entries()));
 }
