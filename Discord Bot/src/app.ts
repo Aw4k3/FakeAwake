@@ -1,11 +1,18 @@
 import * as Discord from "discord.js";
 import * as MessageChains from "./system/MessageChains.js";
-import * as Utility from "../include/Utility.js";
-import * as Api from "../include/Api.js";
+import * as Utility from "../helpers/Utility.js";
+import * as MySql from "mysql";
+import * as Api from "../helpers/Api.js";
 import * as CommandHandler from "./CommandHandler.js";
-import * as BotSettings from "../include/BotSettings.js";
+import * as BotSettings from "../helpers/BotSettings.js";
 
 const START_TIME = Date.now();
+const MYSQL = MySql.createConnection({
+    host: "192.168.1.10",
+    user: "bot",
+    password: process.env.FAKEAWAKE_SQL_PASSWORD
+});
+
 const CLIENT = new Discord.Client({
     intents: [
         Discord.GatewayIntentBits.Guilds,
@@ -17,16 +24,16 @@ const CLIENT = new Discord.Client({
 });
 
 const PREFIX = BotSettings.PREFIX;
-Api.Start();
-CommandHandler.LoadCommands();
+// Api.Start();
+CommandHandler.LoadCommands(CLIENT);
 
 CLIENT.once(Discord.Events.ClientReady, OnReady);
 CLIENT.on(Discord.Events.MessageCreate, OnMessageCreate);
 
 
 function OnReady(): void {
-    console.log(`${Utility.GenerateTimestamp()} Loaded in ${(Date.now() - START_TIME) / 1000} seconds`);
-    console.log(`${Utility.GenerateTimestamp()} Logged in as ${CLIENT.user.tag}`);
+    CommandHandler.Log(`Loaded in ${(Date.now() - START_TIME) / 1000} seconds`);
+    CommandHandler.Log(`Logged in as ${CLIENT.user.tag}`);
 }
 
 function OnMessageCreate(message: Discord.Message): void {

@@ -30,6 +30,7 @@ exports.command = {
     category: "Fun",
     nsfw: false,
     aliases: [["8ball"]],
+    devMode: false,
     Run: function (message, args, argswithcase, client) {
         return CommandHandler.ExitCode.Success;
     }

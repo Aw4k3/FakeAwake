@@ -70,16 +70,18 @@ var settings = {
         model: "gpt-4",
         messages: [],
         temperature: 0.7,
-        max_tokens: 200,
+        max_tokens: 100,
         top_p: 1.0,
         frequency_penalty: 0.5,
-        presence_penalty: 0.0
+        presence_penalty: 0.5
     }
 };
 var Conversation = /** @class */ (function () {
     function Conversation() {
         this.messages = [];
         this.timers = [];
+        this.ratelimiter = null;
+        this.isratelimited = false;
     }
     Conversation.prototype.AddMessage = function (message) {
         var _this = this;
@@ -89,6 +91,8 @@ var Conversation = /** @class */ (function () {
             this.messages.splice(0, 1);
             clearTimeout(this.timers[0]);
         }
+        this.isratelimited = true;
+        this.ratelimiter = setTimeout(function () { return _this.isratelimited = false; }, 30000);
     };
     Conversation.prototype.GetMessages = function () {
         var messages = [Conversation.IDENTITY];
@@ -97,6 +101,9 @@ var Conversation = /** @class */ (function () {
             messages.push({ role: m.role, content: m.message });
         }
         return messages;
+    };
+    Conversation.prototype.IsRateLimited = function () {
+        return this.isratelimited;
     };
     Conversation.MESSAGE_LIFETIME = 600; // Seconds
     Conversation.MESSAGE_HISTORY_SIZE = 15;
@@ -113,9 +120,15 @@ function Run(channel, tags, msg, self, client, args, argswithcase) {
                     _a.label = 1;
                 case 1:
                     _a.trys.push([1, 3, , 4]);
-                    // Handle conversations
+                    // Handle Instancing
                     if (!conversations.has(channel))
                         conversations.set(channel, new Conversation());
+                    // Check Ratelimt
+                    if (conversations.get(channel).IsRateLimited()) {
+                        console.log("".concat(Utils.GetTimeStamp(), " [OpenAI] Rate limited"));
+                        return [2 /*return*/];
+                    }
+                    // Handle conversations
                     conversations.get(channel).AddMessage({ role: "user", message: argswithcase.join(" ") });
                     settings.text.messages = conversations.get(channel).GetMessages();
                     return [4 /*yield*/, OPENAI_API.createChatCompletion(settings.text)];

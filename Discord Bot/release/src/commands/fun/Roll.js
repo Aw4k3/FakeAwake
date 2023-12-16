@@ -25,12 +25,13 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.command = void 0;
 const CommandHandler = __importStar(require("../../CommandHandler.js"));
-const Random = __importStar(require("../../../include/Random.js"));
+const Random = __importStar(require("../../../helpers/Random.js"));
 exports.command = {
     name: "Roll",
     category: "Fun",
     nsfw: false,
     aliases: [["roll"]],
+    devMode: false,
     Run: function (message, args, argswithcase, client) {
         let max = parseInt(args[1], 10) || 100;
         message.channel.send(`${message.author} rolled a ${Random.RandomInteger(0, max)}`);

@@ -26,7 +26,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.command = void 0;
 const Discord = __importStar(require("discord.js"));
 const CommandHandler = __importStar(require("../../CommandHandler.js"));
-const Utility = __importStar(require("../../../include/Utility.js"));
+const Utility = __importStar(require("../../../helpers/Utility.js"));
 let instances = new Map();
 const REROLL_BTN = new Discord.ButtonBuilder()
     .setCustomId("reroll")
@@ -205,6 +205,7 @@ exports.command = {
     category: "Fun",
     nsfw: false,
     aliases: [["waifu"]],
+    devMode: false,
     Run: function (message, args, argswithcase, client) {
         if (instances.has(message.channel.id))
             instances.get(message.channel.id).Deinitialise();

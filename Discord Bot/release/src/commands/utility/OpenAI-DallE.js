@@ -28,8 +28,7 @@ const Discord = __importStar(require("discord.js"));
 const OpenAi = __importStar(require("openai"));
 const FileSystem = __importStar(require("fs"));
 const CommandHandler = __importStar(require("../../CommandHandler.js"));
-const Utility = __importStar(require("../../../include/Utility.js"));
-const WebClient = __importStar(require("../../../include/WebClient.js"));
+const WebClient = __importStar(require("../../../helpers/WebClient.js"));
 const OPENAI_CONFIG = new OpenAi.Configuration({ apiKey: process.env.OPENAI_API_KEY });
 const OPENAI_API = new OpenAi.OpenAIApi(OPENAI_CONFIG);
 let settings = {
@@ -47,6 +46,7 @@ exports.command = {
         ["fakeawakeie"],
         ["faie"]
     ],
+    devMode: false,
     Run: async function (message, args, argswithcase, client) {
         argswithcase.shift();
         settings.prompt = argswithcase.join(" ");
@@ -73,7 +73,7 @@ exports.command = {
                 }
                 catch (e) {
                     m.edit(`Internal Error`);
-                    console.log(`${Utility.GenerateTimestamp()} ${e}`);
+                    CommandHandler.Log(`${e}`);
                     return CommandHandler.ExitCode.InternalError;
                 }
                 break;
@@ -88,7 +88,7 @@ exports.command = {
                 }
                 catch (e) {
                     m.edit(`Internal Error`);
-                    console.log(`${Utility.GenerateTimestamp()} ${e}`);
+                    CommandHandler.Log(`${e}`);
                     return CommandHandler.ExitCode.InternalError;
                 }
         }

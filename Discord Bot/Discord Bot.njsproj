@@ -30,16 +30,16 @@
   </PropertyGroup>
   <ItemGroup>
     <None Include="src\app.ts" />
-    <Content Include="data\GuildSettings.json">
-      <SubType>Code</SubType>
-    </Content>
     <Content Include="package.json" />
     <Content Include="README.md" />
+    <Content Include="release\assets\weewoo\DefaultPrison.webp" />
     <Content Include="release\data\GuildSettings.json" />
-    <Content Include="release\include\GuildSettings.js" />
-    <Content Include="release\include\Random.js" />
-    <Content Include="release\include\Utility.js" />
-    <Content Include="release\include\WebClient.js" />
+    <Content Include="release\helpers\Api.js" />
+    <Content Include="release\helpers\BotSettings.js" />
+    <Content Include="release\helpers\GuildSettings.js" />
+    <Content Include="release\helpers\Random.js" />
+    <Content Include="release\helpers\Utility.js" />
+    <Content Include="release\helpers\WebClient.js" />
     <Content Include="release\run.bat" />
     <Content Include="release\src\app.js" />
     <Content Include="release\src\CommandHandler.js" />
@@ -55,10 +55,11 @@
     <Content Include="tsconfig.json" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="data\" />
     <Folder Include="release\" />
+    <Folder Include="release\assets\" />
+    <Folder Include="release\assets\weewoo\" />
     <Folder Include="release\data\" />
-    <Folder Include="release\include\" />
+    <Folder Include="release\helpers\" />
     <Folder Include="release\src\" />
     <Folder Include="release\src\commands\" />
     <Folder Include="release\src\commands\fun\" />
@@ -67,35 +68,34 @@
     <Folder Include="release\src\commands\utility\" />
     <Folder Include="release\temp\" />
     <Folder Include="src\" />
-    <Folder Include="include\" />
+    <Folder Include="helpers\" />
     <Folder Include="src\commands\" />
+    <Folder Include="src\commands\events\christmas\" />
     <Folder Include="src\commands\fun\" />
+    <Folder Include="src\commands\events\" />
     <Folder Include="src\system\" />
-    <Folder Include="src\commands\settings\" />
-    <Folder Include="src\commands\settings\guild\" />
     <Folder Include="src\commands\utility\" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="include\Api.ts" />
-    <TypeScriptCompile Include="include\AudioStreams.ts">
+    <TypeScriptCompile Include="helpers\Api.ts" />
+    <TypeScriptCompile Include="helpers\AudioStreams.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
-    <TypeScriptCompile Include="include\BotSettings.ts">
+    <TypeScriptCompile Include="helpers\BotSettings.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
-    <TypeScriptCompile Include="include\GuildSettings.ts">
+    <TypeScriptCompile Include="helpers\Random.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
-    <TypeScriptCompile Include="include\Random.ts">
-      <SubType>Code</SubType>
-    </TypeScriptCompile>
-    <TypeScriptCompile Include="include\WebClient.ts" />
+    <TypeScriptCompile Include="helpers\WebClient.ts" />
     <TypeScriptCompile Include="src\CommandHandler.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
-    <TypeScriptCompile Include="include\Utility.ts">
+    <TypeScriptCompile Include="helpers\Utility.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
+    <TypeScriptCompile Include="src\commands\events\christmas\SantaHat.ts" />
+    <TypeScriptCompile Include="src\commands\fun\Weewoo.ts" />
     <TypeScriptCompile Include="src\commands\fun\8Ball.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
@@ -106,9 +106,6 @@
       <SubType>Code</SubType>
     </TypeScriptCompile>
     <TypeScriptCompile Include="src\commands\fun\Waifu.ts">
-      <SubType>Code</SubType>
-    </TypeScriptCompile>
-    <TypeScriptCompile Include="src\commands\settings\guild\SetGuildPrefix.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
     <TypeScriptCompile Include="src\system\MessageChains.ts" />

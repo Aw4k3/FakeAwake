@@ -65,14 +65,18 @@ var Https = __importStar(require("https"));
 var Utils = __importStar(require("./Utils"));
 function DownloadFileAsync(url, file) {
     return __awaiter(this, void 0, void 0, function () {
-        var _file, response;
+        var wstream;
         return __generator(this, function (_a) {
-            _file = FileSystem.createWriteStream(file);
-            response = Https.get(url);
-            response.pipe(_file);
-            _file.on("finish", function () {
-                _file.close();
-                console.log("".concat(Utils.GetTimeStamp(), " [Download Manager] Downloaded and Saved ").concat(file));
+            wstream = FileSystem.createWriteStream(file);
+            Https.get(url, function (response) {
+                console.log("".concat(Utils.GetTimeStamp(), " [Download] Status Code: ").concat(response.statusCode));
+                console.log("".concat(Utils.GetTimeStamp(), " [Download] Headers: ").concat(response.headers));
+                console.log("".concat(Utils.GetTimeStamp(), " [Download] Downloaded ").concat(file));
+                response.pipe(wstream);
+                wstream.on("finish", function () {
+                    wstream.close();
+                    console.log("".concat(Utils.GetTimeStamp(), " [Download Manager] Downloaded and Saved ").concat(file));
+                });
             });
             return [2 /*return*/];
         });

@@ -1,13 +1,14 @@
 import * as Discord from "discord.js";
 import * as CommandHandler from "../../CommandHandler.js";
-import * as Random from "../../../include/Random.js";
-import * as Utility from "../../../include/Utility.js";
+import * as Random from "../../../helpers/Random.js";
+import * as Utility from "../../../helpers/Utility.js";
 
 export const command: CommandHandler.ICommand = {
     name: "HowX",
     category: "Fun",
     nsfw: false,
     aliases: [["how"]],
+    devMode: false,
     Run: function (message: Discord.Message, args: string[], argswithcase: string[], client: Discord.Client): CommandHandler.ExitCode {
         if (argswithcase.length < 2) return CommandHandler.ExitCode.UsageError;
 

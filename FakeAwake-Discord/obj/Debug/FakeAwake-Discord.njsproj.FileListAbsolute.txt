@@ -1,3 +1,6 @@
 C:\Users\Potato PC\source\repos\FakeAwake\FakeAwake-Discord\obj\Debug\FakeAwake-Discord.njsproj.AssemblyReference.cache
 C:\Users\Potato PC\source\repos\FakeAwake\FakeAwake-Discord\obj\Debug\FakeAwake-Discord.njsproj.CoreCompileInputs.cache
 C:\Users\Potato PC\source\repos\FakeAwake\FakeAwake-Discord\bin\Microsoft.NodejsTools.WebRole.dll
+C:\Users\Potato PC\Documents\GitHub\FakeAwake\FakeAwake-Discord\obj\Debug\FakeAwake-Discord.njsproj.AssemblyReference.cache
+C:\Users\Potato PC\Documents\GitHub\FakeAwake\FakeAwake-Discord\obj\Debug\FakeAwake-Discord.njsproj.CoreCompileInputs.cache
+C:\Users\Potato PC\Documents\GitHub\FakeAwake\FakeAwake-Discord\bin\Microsoft.NodejsTools.WebRole.dll

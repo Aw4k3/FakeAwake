@@ -12,7 +12,6 @@ function UpdateChain(channel, message) {
             chain.push(message);
         else
             chain = [message];
-        console.log(chain);
         if (chain.length > 2) {
             channel.send(message);
             chains.set(channel.id, []);

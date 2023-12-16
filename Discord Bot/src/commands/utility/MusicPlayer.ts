@@ -3,7 +3,7 @@ import * as DiscordVoice from "@discordjs/voice";
 import * as Ytdl from "ytdl-core";
 import * as YtSearch from "yt-search";
 import * as CommandHandler from "../../CommandHandler.js";
-import * as Utility from "../../../include/Utility.js";
+import * as Utility from "../../../helpers/Utility.js";
 
 let streams: Map<string, Stream> = new Map<string, Stream>(); // <Guild.Id, Stream>
 
@@ -204,6 +204,7 @@ export const command: CommandHandler.ICommand = {
     category: "Utility",
     nsfw: false,
     aliases: [["play"]],
+    devMode: false,
     Run: async function (message: Discord.Message, args: string[], argswithcase: string[], client: Discord.Client): Promise<CommandHandler.ExitCode> {
         if (!message.member.voice.channel) {
             message.channel.send(`${message.author}, You must be connected to a voice channel.`);
@@ -219,13 +220,13 @@ export const command: CommandHandler.ICommand = {
         // Stream Management
         let voiceChannel = await message.member.voice.channel;
         if (voiceChannel == null) {
-            console.log(`${Utility.GenerateTimestamp()} Failed to get vc`);
+            CommandHandler.Log(`Failed to get vc`);
             message.channel.send("Failed to get vc");
             return CommandHandler.ExitCode.InternalError;
         }
 
         if (!voiceChannel.joinable) {
-            console.log(`${Utility.GenerateTimestamp()} I can't join this vc`);
+            CommandHandler.Log(`I can't join this vc`);
             message.channel.send("I can't join this vc");
             return CommandHandler.ExitCode.UsageError;
         }

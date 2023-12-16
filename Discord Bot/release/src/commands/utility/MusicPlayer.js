@@ -29,7 +29,7 @@ const DiscordVoice = __importStar(require("@discordjs/voice"));
 const Ytdl = __importStar(require("ytdl-core"));
 const YtSearch = __importStar(require("yt-search"));
 const CommandHandler = __importStar(require("../../CommandHandler.js"));
-const Utility = __importStar(require("../../../include/Utility.js"));
+const Utility = __importStar(require("../../../helpers/Utility.js"));
 let streams = new Map();
 var PLAYER_STATE;
 (function (PLAYER_STATE) {
@@ -218,6 +218,7 @@ exports.command = {
     category: "Utility",
     nsfw: false,
     aliases: [["play"]],
+    devMode: false,
     Run: async function (message, args, argswithcase, client) {
         if (!message.member.voice.channel) {
             message.channel.send(`${message.author}, You must be connected to a voice channel.`);
@@ -225,12 +226,12 @@ exports.command = {
         }
         let voiceChannel = await message.member.voice.channel;
         if (voiceChannel == null) {
-            console.log(`${Utility.GenerateTimestamp()} Failed to get vc`);
+            CommandHandler.Log(`Failed to get vc`);
             message.channel.send("Failed to get vc");
             return CommandHandler.ExitCode.InternalError;
         }
         if (!voiceChannel.joinable) {
-            console.log(`${Utility.GenerateTimestamp()} I can't join this vc`);
+            CommandHandler.Log(`I can't join this vc`);
             message.channel.send("I can't join this vc");
             return CommandHandler.ExitCode.UsageError;
         }

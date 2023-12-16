@@ -2,7 +2,7 @@ import * as Discord from "discord.js";
 import * as OpenAi from "openai";
 import * as GoogleTts from "gtts";
 import * as CommandHandler from "../../CommandHandler.js";
-import * as Utility from "../../../include/Utility.js";
+import * as Utility from "../../../helpers/Utility.js";
 
 const OPENAI_CONFIG = new OpenAi.Configuration({ apiKey: process.env.OPENAI_API_KEY });
 const OPENAI_API = new OpenAi.OpenAIApi(OPENAI_CONFIG);
@@ -64,6 +64,7 @@ export const command: CommandHandler.ICommand = {
         ["summonfakeawake3"],
         ["sfa3"]
     ],
+    devMode: false,
     Run: async function (message: Discord.Message, args: string[], argswithcase: string[], client: Discord.Client): Promise<CommandHandler.ExitCode> {
         argswithcase.shift();
 
@@ -82,16 +83,16 @@ export const command: CommandHandler.ICommand = {
 
             conversations.get(channel_id).AddMessage({ role: response.data.choices[0].message.role, message: response.data.choices[0].message.content });
 
-            console.log(`${Utility.GenerateTimestamp()} [OpenAI] Begining of Response`);
-            console.log(`${Utility.GenerateTimestamp()} [OpenAI] Response: ${response.data.choices[0].message.content.replace("\n", "\\n")}`);
-            console.log(`${Utility.GenerateTimestamp()} [OpenAI] Response Finish Reason: ${response.data.choices[0].finish_reason}`);
-            console.log(`${Utility.GenerateTimestamp()} [OpenAI] End of Response`);
+            CommandHandler.Log(`[OpenAI] Begining of Response`);
+            CommandHandler.Log(`[OpenAI] Response: ${response.data.choices[0].message.content.replace("\n", "\\n")}`);
+            CommandHandler.Log(`[OpenAI] Response Finish Reason: ${response.data.choices[0].finish_reason}`);
+            CommandHandler.Log(`[OpenAI] End of Response`);
         } catch (e) {
             m.edit("I broke, please try again. If I'm still broken then blame <@301985885870882827> >:)");
 
-            console.log(`${Utility.GenerateTimestamp()} [OpenAI] Begining of Response`);
-            console.log(`${Utility.GenerateTimestamp()} [OpenAI] Response: ${e}`);
-            console.log(`${Utility.GenerateTimestamp()} [OpenAI] End of Response`);
+            CommandHandler.Log(`[OpenAI] Begining of Response`);
+            CommandHandler.Log(`[OpenAI] Response: ${e}`);
+            CommandHandler.Log(`[OpenAI] End of Response`);
             return CommandHandler.ExitCode.InternalError;
         }
 

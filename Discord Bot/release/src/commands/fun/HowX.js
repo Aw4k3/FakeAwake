@@ -26,13 +26,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.command = void 0;
 const Discord = __importStar(require("discord.js"));
 const CommandHandler = __importStar(require("../../CommandHandler.js"));
-const Random = __importStar(require("../../../include/Random.js"));
-const Utility = __importStar(require("../../../include/Utility.js"));
+const Random = __importStar(require("../../../helpers/Random.js"));
+const Utility = __importStar(require("../../../helpers/Utility.js"));
 exports.command = {
     name: "HowX",
     category: "Fun",
     nsfw: false,
     aliases: [["how"]],
+    devMode: false,
     Run: function (message, args, argswithcase, client) {
         if (argswithcase.length < 2)
             return CommandHandler.ExitCode.UsageError;

@@ -25,11 +25,15 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const Discord = __importStar(require("discord.js"));
 const MessageChains = __importStar(require("./system/MessageChains.js"));
-const Utility = __importStar(require("../include/Utility.js"));
-const Api = __importStar(require("../include/Api.js"));
+const MySql = __importStar(require("mysql"));
 const CommandHandler = __importStar(require("./CommandHandler.js"));
-const BotSettings = __importStar(require("../include/BotSettings.js"));
+const BotSettings = __importStar(require("../helpers/BotSettings.js"));
 const START_TIME = Date.now();
+const MYSQL = MySql.createConnection({
+    host: "192.168.1.10",
+    user: "bot",
+    password: process.env.FAKEAWAKE_SQL_PASSWORD
+});
 const CLIENT = new Discord.Client({
     intents: [
         Discord.GatewayIntentBits.Guilds,
@@ -40,13 +44,12 @@ const CLIENT = new Discord.Client({
     ]
 });
 const PREFIX = BotSettings.PREFIX;
-Api.Start();
-CommandHandler.LoadCommands();
+CommandHandler.LoadCommands(CLIENT);
 CLIENT.once(Discord.Events.ClientReady, OnReady);
 CLIENT.on(Discord.Events.MessageCreate, OnMessageCreate);
 function OnReady() {
-    console.log(`${Utility.GenerateTimestamp()} Loaded in ${(Date.now() - START_TIME) / 1000} seconds`);
-    console.log(`${Utility.GenerateTimestamp()} Logged in as ${CLIENT.user.tag}`);
+    CommandHandler.Log(`Loaded in ${(Date.now() - START_TIME) / 1000} seconds`);
+    CommandHandler.Log(`Logged in as ${CLIENT.user.tag}`);
 }
 function OnMessageCreate(message) {
     if (message.author.bot)

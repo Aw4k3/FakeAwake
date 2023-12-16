@@ -26,7 +26,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.command = void 0;
 const Discord = __importStar(require("discord.js"));
 const CommandHandler = __importStar(require("../../CommandHandler.js"));
-const Utility = __importStar(require("../../../include/Utility.js"));
+const Utility = __importStar(require("../../../helpers/Utility.js"));
 exports.command = {
     name: "Ping",
     category: "Utility",
@@ -34,6 +34,7 @@ exports.command = {
     aliases: [
         ["ping"]
     ],
+    devMode: false,
     Run: async function (message, args, argswithcase, client) {
         let embed = new Discord.EmbedBuilder();
         embed.setDescription("<a:Loading:965027668280111255> Pinging...");

@@ -1,7 +1,7 @@
 import * as Discord from "discord.js";
 import NekoClient, * as NekosLife from "nekos.life";
 import * as CommandHandler from "../../CommandHandler.js";
-import * as Utility from "../../../include/Utility.js";
+import * as Utility from "../../../helpers/Utility.js";
 
 let instances: Map<string, Instance> = new Map();
 
@@ -196,6 +196,7 @@ export const command: CommandHandler.ICommand = {
     category: "Fun",
     nsfw: false,
     aliases: [["waifu"]],
+    devMode: false,
     Run: function (message: Discord.Message, args: string[], argswithcase: string[], client: Discord.Client): CommandHandler.ExitCode {
         if (instances.has(message.channel.id)) instances.get(message.channel.id).Deinitialise();
         instances.set(message.channel.id, new Instance(message.channel as Discord.TextChannel));

@@ -26,7 +26,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.command = void 0;
 const OpenAi = __importStar(require("openai"));
 const CommandHandler = __importStar(require("../../CommandHandler.js"));
-const Utility = __importStar(require("../../../include/Utility.js"));
 const OPENAI_CONFIG = new OpenAi.Configuration({ apiKey: process.env.OPENAI_API_KEY });
 const OPENAI_API = new OpenAi.OpenAIApi(OPENAI_CONFIG);
 let settings = {
@@ -48,6 +47,7 @@ exports.command = {
         ["summonfakeawake2"],
         ["sfa2"]
     ],
+    devMode: false,
     Run: async function (message, args, argswithcase, client) {
         argswithcase.shift();
         let response;
@@ -64,10 +64,10 @@ exports.command = {
             m.edit(`Status: ${e.response.status}, ${e.response.statusText}`);
             return CommandHandler.ExitCode.InternalError;
         }
-        console.log(`${Utility.GenerateTimestamp()} [OpenAI] Begining of Response`);
-        console.log(`${Utility.GenerateTimestamp()} [OpenAI] Response: ${response.data.choices[0].text.replace("\n", "\\n")}`);
-        console.log(`${Utility.GenerateTimestamp()} [OpenAI] Response Finish Reason: ${response.data.choices[0].finish_reason}`);
-        console.log(`${Utility.GenerateTimestamp()} [OpenAI] End of Response`);
+        CommandHandler.Log(`[OpenAI] Begining of Response`);
+        CommandHandler.Log(`[OpenAI] Response: ${response.data.choices[0].text.replace("\n", "\\n")}`);
+        CommandHandler.Log(`[OpenAI] Response Finish Reason: ${response.data.choices[0].finish_reason}`);
+        CommandHandler.Log(`[OpenAI] End of Response`);
         return CommandHandler.ExitCode.Success;
     }
 };

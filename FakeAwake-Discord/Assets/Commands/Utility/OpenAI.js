@@ -107,6 +107,8 @@ var Conversation = /** @class */ (function () {
         }
         return messages;
     };
+    Conversation.prototype.StreamResponse = function (channel) {
+    };
     Conversation.MESSAGE_LIFETIME = 600; // Seconds
     Conversation.MESSAGE_HISTORY_SIZE = 15;
     Conversation.IDENTITY = { role: "system", content: "Your name is FakeAwake. You are a really smart person." };

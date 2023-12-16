@@ -26,7 +26,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.command = void 0;
 const OpenAi = __importStar(require("openai"));
 const CommandHandler = __importStar(require("../../CommandHandler.js"));
-const Utility = __importStar(require("../../../include/Utility.js"));
 const OPENAI_CONFIG = new OpenAi.Configuration({ apiKey: process.env.OPENAI_API_KEY });
 const OPENAI_API = new OpenAi.OpenAIApi(OPENAI_CONFIG);
 let conversations = new Map();
@@ -73,6 +72,7 @@ exports.command = {
         ["summonfakeawake3"],
         ["sfa3"]
     ],
+    devMode: false,
     Run: async function (message, args, argswithcase, client) {
         argswithcase.shift();
         let response;
@@ -89,16 +89,16 @@ exports.command = {
             else
                 message.edit("idk");
             conversations.get(channel_id).AddMessage({ role: response.data.choices[0].message.role, message: response.data.choices[0].message.content });
-            console.log(`${Utility.GenerateTimestamp()} [OpenAI] Begining of Response`);
-            console.log(`${Utility.GenerateTimestamp()} [OpenAI] Response: ${response.data.choices[0].message.content.replace("\n", "\\n")}`);
-            console.log(`${Utility.GenerateTimestamp()} [OpenAI] Response Finish Reason: ${response.data.choices[0].finish_reason}`);
-            console.log(`${Utility.GenerateTimestamp()} [OpenAI] End of Response`);
+            CommandHandler.Log(`[OpenAI] Begining of Response`);
+            CommandHandler.Log(`[OpenAI] Response: ${response.data.choices[0].message.content.replace("\n", "\\n")}`);
+            CommandHandler.Log(`[OpenAI] Response Finish Reason: ${response.data.choices[0].finish_reason}`);
+            CommandHandler.Log(`[OpenAI] End of Response`);
         }
         catch (e) {
             m.edit("I broke, please try again. If I'm still broken then blame <@301985885870882827> >:)");
-            console.log(`${Utility.GenerateTimestamp()} [OpenAI] Begining of Response`);
-            console.log(`${Utility.GenerateTimestamp()} [OpenAI] Response: ${e}`);
-            console.log(`${Utility.GenerateTimestamp()} [OpenAI] End of Response`);
+            CommandHandler.Log(`[OpenAI] Begining of Response`);
+            CommandHandler.Log(`[OpenAI] Response: ${e}`);
+            CommandHandler.Log(`[OpenAI] End of Response`);
             return CommandHandler.ExitCode.InternalError;
         }
         return CommandHandler.ExitCode.Success;

@@ -3,8 +3,8 @@ import * as Discord from "discord.js";
 import * as OpenAi from "openai";
 import * as FileSystem from "fs";
 import * as CommandHandler from "../../CommandHandler.js";
-import * as Utility from "../../../include/Utility.js";
-import * as WebClient from "../../../include/WebClient.js";
+import * as Utility from "../../../helpers/Utility.js";
+import * as WebClient from "../../../helpers/WebClient.js";
 
 const OPENAI_CONFIG = new OpenAi.Configuration({ apiKey: process.env.OPENAI_API_KEY });
 const OPENAI_API = new OpenAi.OpenAIApi(OPENAI_CONFIG);
@@ -25,6 +25,7 @@ export const command: CommandHandler.ICommand = {
         ["fakeawakeie"],
         ["faie"]
     ],
+    devMode: false,
     Run: async function (message: Discord.Message, args: string[], argswithcase: string[], client: Discord.Client): Promise<CommandHandler.ExitCode> {
         argswithcase.shift();
         settings.prompt = argswithcase.join(" ");
@@ -56,7 +57,7 @@ export const command: CommandHandler.ICommand = {
                     m.delete();
                 } catch (e) {
                     m.edit(`Internal Error`);
-                    console.log(`${Utility.GenerateTimestamp()} ${e}`);
+                    CommandHandler.Log(`${e}`);
                     return CommandHandler.ExitCode.InternalError;
                 }
                 break;
@@ -71,7 +72,7 @@ export const command: CommandHandler.ICommand = {
                     m.delete();
                 } catch (e) {
                     m.edit(`Internal Error`);
-                    console.log(`${Utility.GenerateTimestamp()} ${e}`);
+                    CommandHandler.Log(`${e}`);
                     return CommandHandler.ExitCode.InternalError;
                 }
         }
