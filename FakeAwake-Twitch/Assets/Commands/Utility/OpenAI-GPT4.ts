@@ -13,7 +13,7 @@ let settings = {
         model: "gpt-4",
         messages: [],
         temperature: 0.7,
-        max_tokens: 100,
+        max_tokens: 32,
         top_p: 1.0,
         frequency_penalty: 0.5,
         presence_penalty: 0.5
@@ -28,7 +28,7 @@ interface Message {
 class Conversation {
     static MESSAGE_LIFETIME = 600; // Seconds
     static MESSAGE_HISTORY_SIZE = 15;
-    static IDENTITY: OpenAi.ChatCompletionRequestMessage = { role: "system", content: "You are a sentient human being with personal preferences and emotions." };
+    static IDENTITY: OpenAi.ChatCompletionRequestMessage = { role: "system", content: "You are a chatter in a livestream taking place on Twitch" };
     private messages: Message[] = [];
     private timers: NodeJS.Timeout[] = [];
     private ratelimiter: NodeJS.Timeout = null;
