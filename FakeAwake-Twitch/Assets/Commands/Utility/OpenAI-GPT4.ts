@@ -13,7 +13,7 @@ let settings = {
         model: "gpt-4",
         messages: [],
         temperature: 0.7,
-        max_tokens: 32,
+        max_tokens: 22,
         top_p: 1.0,
         frequency_penalty: 0.5,
         presence_penalty: 0.5
@@ -31,8 +31,8 @@ class Conversation {
     static IDENTITY: OpenAi.ChatCompletionRequestMessage = { role: "system", content: "You are a chatter in a livestream taking place on Twitch" };
     private messages: Message[] = [];
     private timers: NodeJS.Timeout[] = [];
-    private ratelimiter: NodeJS.Timeout = null;
-    private isratelimited: boolean = false;
+    private rateLimiter: NodeJS.Timeout = null;
+    private isRateLimited: boolean = false;
 
     AddMessage(message: Message): void {
         this.messages.push(message);
@@ -43,8 +43,8 @@ class Conversation {
             clearTimeout(this.timers[0]);
         }
         
-        this.isratelimited = true;
-        this.ratelimiter = setTimeout(() => this.isratelimited = false, 30000);
+        this.isRateLimited = true;
+        this.rateLimiter = setTimeout(() => this.isRateLimited = false, 60000); // 60 Second rate limit. Triggered after every use
     }
 
     GetMessages(): OpenAi.ChatCompletionRequestMessage[] {
@@ -54,7 +54,7 @@ class Conversation {
     }
 
     IsRateLimited(): boolean {
-        return this.isratelimited;
+        return this.isRateLimited;
     }
 }
 

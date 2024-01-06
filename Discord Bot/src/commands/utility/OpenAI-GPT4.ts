@@ -59,6 +59,8 @@ export const command: CommandHandler.ICommand = {
         // Text Response
         ["fakeawake3"],
         ["fa3"],
+        ["fakeawake"]
+        ["fa"]
 
         // Text + Voice Response
         ["summonfakeawake3"],
@@ -66,10 +68,15 @@ export const command: CommandHandler.ICommand = {
     ],
     devMode: false,
     Run: async function (message: Discord.Message, args: string[], argswithcase: string[], client: Discord.Client): Promise<CommandHandler.ExitCode> {
+        if (args[0] == "fakeawake3" || args[0] == "fa3") {
+            message.channel.send(".fa3 (or .fakeawake3) has been changed to just .fa (or .fakeawake)");
+            return;
+        }
+
         argswithcase.shift();
 
         let response;
-        var m: Discord.Message = await message.channel.send("<a:Loading:965027668280111255> thinking... (fa3 is unstable, consider using fa2 if this isn't working out)");
+        var m: Discord.Message = await message.channel.send("<a:Loading:965027668280111255> thinking...");
 
         try {
             // Handle conversation instances
@@ -79,12 +86,13 @@ export const command: CommandHandler.ICommand = {
             settings.text.messages = conversations.get(channel_id).GetMessages();
 
             response = await OPENAI_API.createChatCompletion(settings.text);
-            if (response.data.choices[0].message != "") m.edit(response.data.choices[0].message.content); else message.edit("idk");
+            let responseMessage = response.data.choices[0].message;
+            if (responseMessage.content != "") m.edit(responseMessage.content); else message.edit("idk");
 
-            conversations.get(channel_id).AddMessage({ role: response.data.choices[0].message.role, message: response.data.choices[0].message.content });
+            conversations.get(channel_id).AddMessage({ role: responseMessage.role, message: responseMessage.content });
 
             CommandHandler.Log(`[OpenAI] Begining of Response`);
-            CommandHandler.Log(`[OpenAI] Response: ${response.data.choices[0].message.content.replace("\n", "\\n")}`);
+            CommandHandler.Log(`[OpenAI] Response: ${responseMessage.content.replace("\n", "\\n")}`);
             CommandHandler.Log(`[OpenAI] Response Finish Reason: ${response.data.choices[0].finish_reason}`);
             CommandHandler.Log(`[OpenAI] End of Response`);
         } catch (e) {
