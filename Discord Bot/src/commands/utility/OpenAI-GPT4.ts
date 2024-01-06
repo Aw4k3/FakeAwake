@@ -59,8 +59,8 @@ export const command: CommandHandler.ICommand = {
         // Text Response
         ["fakeawake3"],
         ["fa3"],
-        ["fakeawake"]
-        ["fa"]
+        ["fakeawake"],
+        ["fa"],
 
         // Text + Voice Response
         ["summonfakeawake3"],
