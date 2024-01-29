@@ -87,7 +87,7 @@ export const command: CommandHandler.ICommand = {
 
             response = await OPENAI_API.createChatCompletion(settings.text);
             let responseMessage = response.data.choices[0].message;
-            if (responseMessage.content != "") m.edit(responseMessage.content); else message.edit("idk");
+            if (responseMessage.content !== "") m.edit(responseMessage.content); else message.edit("idk");
 
             conversations.get(channel_id).AddMessage({ role: responseMessage.role, message: responseMessage.content });
 

@@ -69,7 +69,9 @@ exports.command = {
     aliases: [
         ["fakeawake3"],
         ["fa3"],
-        ["fakeawake"]["fa"]["summonfakeawake3"],
+        ["fakeawake"],
+        ["fa"],
+        ["summonfakeawake3"],
         ["sfa3"]
     ],
     devMode: false,

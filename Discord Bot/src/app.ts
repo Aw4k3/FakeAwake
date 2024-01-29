@@ -24,7 +24,7 @@ const CLIENT = new Discord.Client({
 });
 
 const PREFIX = BotSettings.PREFIX;
-// Api.Start();
+Api.Start();
 CommandHandler.LoadCommands(CLIENT);
 
 CLIENT.once(Discord.Events.ClientReady, OnReady);

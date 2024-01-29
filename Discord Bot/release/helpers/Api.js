@@ -27,7 +27,7 @@ exports.Start = void 0;
 const Http = __importStar(require("http"));
 const CommandHandler = __importStar(require("../src/CommandHandler.js"));
 const MessageChains = __importStar(require("../src/system/MessageChains.js"));
-var api;
+let api;
 function Start() {
     api = Http.createServer(ApiRequestHandler);
     api.listen(4200, () => CommandHandler.Log(`Api is running on port 4200`));

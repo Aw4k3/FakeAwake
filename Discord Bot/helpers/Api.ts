@@ -3,7 +3,7 @@ import * as Utility from "./Utility.js";
 import * as CommandHandler from "../src/CommandHandler.js";
 import * as MessageChains from "../src/system/MessageChains.js";
 
-var api: Http.Server;
+let api: Http.Server;
 
 export function Start() {
     api = Http.createServer(ApiRequestHandler);

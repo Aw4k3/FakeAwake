@@ -26,6 +26,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Discord = __importStar(require("discord.js"));
 const MessageChains = __importStar(require("./system/MessageChains.js"));
 const MySql = __importStar(require("mysql"));
+const Api = __importStar(require("../helpers/Api.js"));
 const CommandHandler = __importStar(require("./CommandHandler.js"));
 const BotSettings = __importStar(require("../helpers/BotSettings.js"));
 const START_TIME = Date.now();
@@ -44,6 +45,7 @@ const CLIENT = new Discord.Client({
     ]
 });
 const PREFIX = BotSettings.PREFIX;
+Api.Start();
 CommandHandler.LoadCommands(CLIENT);
 CLIENT.once(Discord.Events.ClientReady, OnReady);
 CLIENT.on(Discord.Events.MessageCreate, OnMessageCreate);
